@@ -1,0 +1,95 @@
+# TrOCR OCR Pipeline Configuration
+
+project:
+  name: llm_ocr_trocr
+  version: "0.1.0"
+
+# Model configuration
+model:
+  name: microsoft/trocr-base-printed
+  max_length: 128
+  num_beams: 4
+  use_cache: true
+
+# Data configuration
+data:
+  name: sroie
+  data_dir: null  # Auto-resolved from paths
+  train_split: 0.85
+  val_split: 0.15
+  max_samples: null  # Use all data
+  seed: 42
+
+# Preprocessing configuration
+preprocessing:
+  resize:
+    width: 384
+    height: 384
+  normalize: true
+  deskew: false  # Enable if images are rotated
+
+# Training configuration
+training:
+  batch_size: 8
+  learning_rate: 5.0e-5
+  weight_decay: 0.01
+  epochs: 10
+  warmup_ratio: 0.1
+  early_stopping_patience: 3
+  gradient_accumulation_steps: 2
+  fp16: true
+  max_grad_norm: 1.0
+
+# Evaluation configuration
+evaluation:
+  batch_size: 16
+  metrics:
+    - cer
+    - wer
+    - exact_match
+  slices:
+    - field_type
+    - image_quality
+    - text_length
+  robustness:
+    gaussian_blur:
+      - 1.0
+      - 2.0
+      - 3.0
+    rotation:
+      - 5
+      - 10
+      - 15
+    jpeg_quality:
+      - 75
+      - 50
+      - 25
+
+# Export configuration
+export:
+  format: onnx
+  opset_version: 14
+  quantize: true
+  optimize: true
+
+# MLflow configuration
+mlflow:
+  experiment_name: llm_ocr_trocr
+  run_name: null
+
+# Evaluation gates (CI thresholds)
+gates:
+  cer:
+    max: 0.05
+  wer:
+    max: 0.10
+  field_exact_match:
+    min: 0.85
+
+# Logging
+logging:
+  level: INFO
+  format: console
+
+# Reproducibility
+seed: 42

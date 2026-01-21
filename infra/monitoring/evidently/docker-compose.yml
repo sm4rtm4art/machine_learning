@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  evidently:
+    image: evidentlyai/evidently-service:latest
+    container_name: ml-portfolio-evidently
+    ports:
+      - "8000:8000"
+    volumes:
+      - evidently-data:/app/data
+      - ./workspaces:/app/workspaces
+    environment:
+      - EVIDENTLY_SERVICE_HOST=0.0.0.0
+      - EVIDENTLY_SERVICE_PORT=8000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  evidently-data:
+    driver: local

@@ -1,0 +1,54 @@
+# Default configuration template
+# Customize for your specific project
+
+# Project metadata
+project:
+  name: template
+  version: "0.1.0"
+
+# Model configuration
+model:
+  name: null  # e.g., "microsoft/trocr-base-printed"
+  pretrained: true
+
+# Data configuration
+data:
+  name: null  # Dataset name
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  seed: 42
+
+# Training configuration
+training:
+  batch_size: 16
+  learning_rate: 1.0e-4
+  epochs: 10
+  early_stopping_patience: 3
+  gradient_accumulation_steps: 1
+
+# Evaluation configuration
+evaluation:
+  batch_size: 32
+  metrics:
+    - accuracy
+    - f1
+
+# Export configuration
+export:
+  format: onnx  # onnx, torchscript, etc.
+  quantize: false
+  optimize: true
+
+# MLflow configuration
+mlflow:
+  experiment_name: template
+  run_name: null  # Auto-generated if null
+
+# Logging
+logging:
+  level: INFO
+  format: console  # console or json
+
+# Reproducibility
+seed: 42
