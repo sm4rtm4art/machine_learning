@@ -96,7 +96,7 @@ evidently-stop:
 # Project Commands
 # =============================================================================
 
-# Run a project script: make run PROJECT=llm_ocr_trocr SCRIPT=train
+# Run a project script: make run PROJECT=ocr_pipeline SCRIPT=train
 run:
 	uv run python projects/$(PROJECT)/scripts/$(SCRIPT).py
 

@@ -27,7 +27,7 @@ This document defines the code organization and conventions for the ML Portfolio
 
 ```python
 # ✓ Good: Notebook imports and visualizes
-from projects.llm_ocr_trocr.project.eval import load_results
+from projects.ocr_pipeline.project.eval import load_results
 results = load_results(run_id)
 plot_calibration(results)
 
@@ -97,7 +97,7 @@ def main(
 
 ### Files and Directories
 
-- **Directories**: `snake_case` (e.g., `llm_ocr_trocr`)
+- **Directories**: `snake_case` (e.g., `ocr_pipeline`)
 - **Python files**: `snake_case` (e.g., `download_data.py`)
 - **Config files**: `snake_case.yaml` (e.g., `default.yaml`)
 - **Classes**: `PascalCase` (e.g., `TrOCRModel`)
@@ -105,7 +105,7 @@ def main(
 
 ### MLflow
 
-- **Experiments**: `<project_name>` (e.g., `llm_ocr_trocr`)
+- **Experiments**: `<project_name>` (e.g., `ocr_pipeline`)
 - **Run names**: `<descriptor>_<date>` (e.g., `baseline_20240115`)
 - **Artifact paths**: See [MLflow Conventions](mlflow_conventions.md)
 
@@ -116,7 +116,7 @@ def main(
 ```python
 # ✓ Good
 from ml_portfolio.metrics.ocr import compute_cer
-from projects.llm_ocr_trocr.project.model import TrOCRWrapper
+from projects.ocr_pipeline.project.model import TrOCRWrapper
 
 # ✗ Bad
 from ..metrics.ocr import compute_cer

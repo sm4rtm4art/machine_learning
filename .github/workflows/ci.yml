@@ -126,7 +126,7 @@ jobs:
           uv run python -c "from ml_portfolio.tracking import mlflow_utils"
 
           # Check project modules (non-model imports)
-          uv run python -c "from projects.llm_ocr_trocr.project import preprocess, postprocess"
+          uv run python -c "from projects.ocr_pipeline.project import preprocess, postprocess"
 
   all-checks:
     name: All Checks

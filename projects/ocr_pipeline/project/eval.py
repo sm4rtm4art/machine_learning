@@ -20,7 +20,7 @@ from ml_portfolio.metrics.ocr import (
     compute_wer,
 )
 
-from projects.llm_ocr_trocr.project.preprocess import (
+from projects.ocr_pipeline.project.preprocess import (
     apply_gaussian_blur,
     apply_jpeg_compression,
     apply_perturbation,

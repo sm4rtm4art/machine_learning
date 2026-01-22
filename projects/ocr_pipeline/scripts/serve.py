@@ -13,7 +13,7 @@ app = typer.Typer()
 console = Console()
 logger = get_logger(__name__)
 
-PROJECT_NAME = "llm_ocr_trocr"
+PROJECT_NAME = "ocr_pipeline"
 
 
 @app.command()

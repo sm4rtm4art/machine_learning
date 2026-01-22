@@ -18,14 +18,14 @@ from ml_portfolio.tracking.mlflow_utils import (
     setup_mlflow,
 )
 
-from projects.llm_ocr_trocr.project.data import SROIEDataset, DataConfig
-from projects.llm_ocr_trocr.project.train import train, TrainConfig
+from projects.ocr_pipeline.project.data import SROIEDataset, DataConfig
+from projects.ocr_pipeline.project.train import train, TrainConfig
 
 app = typer.Typer()
 console = Console()
 logger = get_logger(__name__)
 
-PROJECT_NAME = "llm_ocr_trocr"
+PROJECT_NAME = "ocr_pipeline"
 
 
 def get_device() -> str:

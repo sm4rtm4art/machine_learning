@@ -1,4 +1,4 @@
-# TrOCR OCR Pipeline
+# OCR Pipeline
 
 **Status**: 🚧 Active Development
 
@@ -53,16 +53,16 @@ Structured Output
 
 ```bash
 # Download SROIE dataset
-uv run python projects/llm_ocr_trocr/scripts/download_data.py
+uv run python projects/ocr_pipeline/scripts/download_data.py
 
 # Train (fine-tune TrOCR on SROIE)
-uv run python projects/llm_ocr_trocr/scripts/train.py
+uv run python projects/ocr_pipeline/scripts/train.py
 
 # Evaluate
-uv run python projects/llm_ocr_trocr/scripts/evaluate.py --run-id <run_id>
+uv run python projects/ocr_pipeline/scripts/evaluate.py --run-id <run_id>
 
 # Export to ONNX
-uv run python projects/llm_ocr_trocr/scripts/export.py --run-id <run_id>
+uv run python projects/ocr_pipeline/scripts/export.py --run-id <run_id>
 ```
 
 ## Evaluation Metrics
@@ -104,7 +104,7 @@ Start with the interactive notebook to understand TrOCR:
 
 ```bash
 # Open Jupyter
-uv run jupyter lab projects/llm_ocr_trocr/notebooks/01_trocr_experiments.ipynb
+uv run jupyter lab projects/ocr_pipeline/notebooks/01_trocr_experiments.ipynb
 ```
 
 The notebook includes:
@@ -116,7 +116,7 @@ The notebook includes:
 ## Project Structure
 
 ```
-projects/llm_ocr_trocr/
+projects/ocr_pipeline/
 ├── configs/
 │   └── default.yaml          # Training configuration
 ├── notebooks/

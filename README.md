@@ -25,16 +25,43 @@ I leverage modern AI tools to accelerate development while maintaining critical 
 
 ## Projects
 
-| Project | Domain | Status | Highlights |
-|---------|--------|--------|------------|
-| [TrOCR OCR Pipeline](projects/llm_ocr_trocr/) | Vision + NLP | 🚧 Active | SROIE receipts, ONNX export, CER/WER metrics |
-| [Tabular Boosting Suite](projects/tabular_boosting/) | Tabular | 📋 Planned | LightGBM/XGBoost/CatBoost comparison, SHAP |
-| [LLM Evaluation Harness](projects/llm_eval_harness/) | NLP | 📋 Planned | Reusable eval framework for RAG/agents |
-| [Synthetic Data Generation](projects/synthetic_data_tabular/) | Tabular | 📋 Planned | CTGAN, privacy/utility tradeoffs |
-| [Vision SSL Transfer](projects/vision_ssl_transfer/) | Vision | 📋 Planned | Self-supervised pretraining, robustness |
-| [Time Series Forecasting](projects/timeseries_forecasting_covariates/) | Time Series | 📋 Planned | Covariates, backtesting, probabilistic |
-| [RL Operations Simulator](projects/rl_operations_simulator/) | RL | 📋 Planned | Discrete-event sim, DQN/PPO |
-| [Multimodal Fusion](projects/multimodal_fusion/) | Multimodal | 📋 Planned | Text + tabular + time fusion |
+### Core ML (Start Here)
+
+| Project | Status | Key Technologies | Interconnections |
+|---------|--------|------------------|------------------|
+| [OCR Pipeline](projects/ocr_pipeline/) | 🚧 Active | Tesseract, TrOCR, Donut, preprocessing | → LLM Eval, uses MedGemma |
+| [Tabular Boosting Suite](projects/tabular_boosting/) | 📋 Planned | LightGBM, XGBoost, CatBoost, SHAP | → AutoML |
+| [Time Series Forecasting](projects/timeseries_forecasting_covariates/) | 📋 Planned | Darts, NeuralProphet, conformal | Standalone |
+
+### Advanced Architectures
+
+| Project | Status | Key Technologies | Interconnections |
+|---------|--------|------------------|------------------|
+| [Vision Transformers](projects/vision_ssl_transfer/) | 📋 Planned | ViT, DeiT, Swin, timm | Shares with OCR encoders |
+| [Graph Neural Networks](projects/graph_neural_networks/) | 📋 Planned | PyG, DGL, node/graph classification | → Materials Discovery |
+| [LLM Evaluation Harness](projects/llm_eval_harness/) | 📋 Planned | lm-eval-harness, custom metrics | Benchmarks domain experts |
+
+### Optimization & Meta-Learning
+
+| Project | Status | Key Technologies | Interconnections |
+|---------|--------|------------------|------------------|
+| [Bayesian Optimization](projects/bayesian_optimization/) | 📋 Planned | Optuna, BoTorch, Ax | → AutoML, RL |
+| [AutoML Comparison](projects/automl_comparison/) | 📋 Planned | Auto-sklearn, FLAML, H2O | Uses Boosting, Bayesian |
+
+### Scientific & Applied
+
+| Project | Status | Key Technologies | Interconnections |
+|---------|--------|------------------|------------------|
+| [Scientific ML - Materials](projects/scientific_ml_materials/) | 📋 Planned | JAX, equinox, crystal graphs | Uses GNN |
+| [RL Operations Simulator](projects/rl_operations_simulator/) | 📋 Planned | Gymnasium, Stable-Baselines3 | Uses Bayesian for tuning |
+| [Synthetic Data Generation](projects/synthetic_data_tabular/) | 📋 Planned | CTGAN, SDV, privacy metrics | Supports all tabular |
+
+### Infrastructure
+
+| Project | Status | Key Technologies | Notes |
+|---------|--------|------------------|-------|
+| [Framework Comparison](projects/framework_comparison/) | 📋 Planned | PyTorch, TensorFlow, JAX | Cross-cutting analysis |
+| [ONNX Export Hub](projects/onnx_export_hub/) | 📋 Planned | ONNX, ONNX Runtime, TensorRT | Deployment optimization |
 
 ---
 
@@ -68,16 +95,16 @@ Each project follows a consistent CLI interface:
 
 ```bash
 # Download data
-uv run python projects/llm_ocr_trocr/scripts/download_data.py
+uv run python projects/ocr_pipeline/scripts/download_data.py
 
 # Train a model
-uv run python projects/llm_ocr_trocr/scripts/train.py
+uv run python projects/ocr_pipeline/scripts/train.py
 
 # Evaluate
-uv run python projects/llm_ocr_trocr/scripts/evaluate.py
+uv run python projects/ocr_pipeline/scripts/evaluate.py
 
 # Export to ONNX
-uv run python projects/llm_ocr_trocr/scripts/export.py
+uv run python projects/ocr_pipeline/scripts/export.py
 ```
 
 ### Start MLflow
@@ -227,4 +254,4 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 ## Acknowledgments
 
-This portfolio was developed with AI assistance (Claude) while maintaining human oversight on architecture decisions, evaluation methodology, and code quality. The goal is to demonstrate not just ML skills, but the judgment to know when AI suggestions are appropriate and when they need refinement.
+This portfolio was developed with AI assistance (Claude, Gemini, GPT, etc.) while maintaining human oversight on architecture decisions, evaluation methodology, and code quality. The goal is to demonstrate not just ML skills, but the judgment to know when AI suggestions are appropriate and when they need refinement.

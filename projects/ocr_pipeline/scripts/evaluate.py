@@ -16,8 +16,8 @@ from ml_portfolio.common.logging import get_logger, setup_logging
 from ml_portfolio.common.paths import get_project_paths
 from ml_portfolio.tracking.mlflow_utils import setup_mlflow
 
-from projects.llm_ocr_trocr.project.data import SROIEDataset
-from projects.llm_ocr_trocr.project.eval import (
+from projects.ocr_pipeline.project.data import SROIEDataset
+from projects.ocr_pipeline.project.eval import (
     evaluate,
     evaluate_robustness,
     save_results,
@@ -28,7 +28,7 @@ app = typer.Typer()
 console = Console()
 logger = get_logger(__name__)
 
-PROJECT_NAME = "llm_ocr_trocr"
+PROJECT_NAME = "ocr_pipeline"
 
 
 def get_device() -> str:

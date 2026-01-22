@@ -11,13 +11,13 @@ from ml_portfolio.common.logging import get_logger, setup_logging
 from ml_portfolio.common.paths import get_project_paths
 from ml_portfolio.tracking.mlflow_utils import setup_mlflow
 
-from projects.llm_ocr_trocr.project.model import TrOCRWrapper, ModelConfig
+from projects.ocr_pipeline.project.model import TrOCRWrapper, ModelConfig
 
 app = typer.Typer()
 console = Console()
 logger = get_logger(__name__)
 
-PROJECT_NAME = "llm_ocr_trocr"
+PROJECT_NAME = "ocr_pipeline"
 
 
 @app.command()

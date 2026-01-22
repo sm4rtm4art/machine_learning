@@ -6,7 +6,7 @@ This directory contains datasets for ML portfolio projects.
 
 ```
 data/
-├── llm_ocr_trocr/      # SROIE receipts dataset
+├── ocr_pipeline/      # SROIE receipts dataset
 ├── tabular_boosting/    # Tabular datasets
 └── ...                  # Other project data
 ```
@@ -17,7 +17,7 @@ Each project has a `download_data.py` script:
 
 ```bash
 # Example: Download SROIE for OCR project
-uv run python projects/llm_ocr_trocr/scripts/download_data.py
+uv run python projects/ocr_pipeline/scripts/download_data.py
 ```
 
 ## Git Ignore

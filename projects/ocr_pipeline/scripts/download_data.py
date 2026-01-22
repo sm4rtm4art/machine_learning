@@ -16,7 +16,7 @@ app = typer.Typer()
 console = Console()
 logger = get_logger(__name__)
 
-PROJECT_NAME = "llm_ocr_trocr"
+PROJECT_NAME = "ocr_pipeline"
 
 # SROIE dataset URLs (from ICDAR 2019 challenge)
 # Note: Actual URLs would need to be obtained from the official source
@@ -53,7 +53,7 @@ def main(
         None,
         "--output-dir",
         "-o",
-        help="Output directory for data. Defaults to data/llm_ocr_trocr/",
+        help="Output directory for data. Defaults to data/ocr_pipeline/",
     ),
     force: bool = typer.Option(
         False,

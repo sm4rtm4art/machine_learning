@@ -1,7 +1,7 @@
-# TrOCR OCR Pipeline Configuration
+# OCR Pipeline Configuration
 
 project:
-  name: llm_ocr_trocr
+  name: ocr_pipeline
   version: "0.1.0"
 
 # Model configuration
@@ -74,7 +74,7 @@ export:
 
 # MLflow configuration
 mlflow:
-  experiment_name: llm_ocr_trocr
+  experiment_name: ocr_pipeline
   run_name: null
 
 # Evaluation gates (CI thresholds)

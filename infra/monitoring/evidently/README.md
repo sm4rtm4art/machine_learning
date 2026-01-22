@@ -50,7 +50,7 @@ workspace.add_report(project_id, report)
 from evidently.ui.workspace import RemoteWorkspace
 
 workspace = RemoteWorkspace("http://localhost:8000")
-project = workspace.create_project("llm_ocr_trocr")
+project = workspace.create_project("ocr_pipeline")
 ```
 
 ## Use Cases

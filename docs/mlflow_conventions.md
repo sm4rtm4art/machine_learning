@@ -34,7 +34,7 @@ Experiment: <project_name>
 ```
 
 **Examples:**
-- Experiment: `llm_ocr_trocr`
+- Experiment: `ocr_pipeline`
   - Run: `baseline_trocr_base_20240115`
   - Run: `finetuned_sroie_20240116`
   - Run: `quantized_int8_20240117`
@@ -46,7 +46,7 @@ Each project has exactly one MLflow experiment:
 ```python
 import mlflow
 
-mlflow.set_experiment("llm_ocr_trocr")
+mlflow.set_experiment("ocr_pipeline")
 ```
 
 ## Run Structure
@@ -102,14 +102,14 @@ mlflow.log_metrics({
 
 | Tag | Example | Purpose |
 |-----|---------|---------|
-| `project` | `llm_ocr_trocr` | Project identifier |
+| `project` | `ocr_pipeline` | Project identifier |
 | `stage` | `development` / `staging` / `production` | Lifecycle stage |
 | `run_type` | `training` / `evaluation` / `export` | What this run does |
 | `environment_hash` | `abc123` | Reproducibility |
 
 ```python
 mlflow.set_tags({
-    "project": "llm_ocr_trocr",
+    "project": "ocr_pipeline",
     "stage": "development",
     "run_type": "training",
     "environment_hash": get_env_hash(),
@@ -227,13 +227,13 @@ Use tags for easy filtering:
 ```python
 # Find all production-ready models
 runs = mlflow.search_runs(
-    experiment_names=["llm_ocr_trocr"],
+    experiment_names=["ocr_pipeline"],
     filter_string="tags.stage = 'production'",
 )
 
 # Find best model by metric
 runs = mlflow.search_runs(
-    experiment_names=["llm_ocr_trocr"],
+    experiment_names=["ocr_pipeline"],
     order_by=["metrics.test_cer ASC"],
     max_results=1,
 )
@@ -264,7 +264,7 @@ def evaluate(run_id: str):
 # .github/workflows/ci.yml
 - name: Evaluate Model
   run: |
-    uv run python projects/llm_ocr_trocr/scripts/evaluate.py \
+    uv run python projects/ocr_pipeline/scripts/evaluate.py \
       --run-id ${{ env.MLFLOW_RUN_ID }}
 
 - name: Check Gates
