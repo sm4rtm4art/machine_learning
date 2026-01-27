@@ -9,6 +9,7 @@ Experimental evaluation of synthetic data generation for tabular datasets, focus
 - Generator comparison:
   - CTGAN baseline
   - Modern alternatives (TabDDPM, etc.)
+  - Use Diffusion Models to generate tabular data
 - Utility evaluation:
   - Train-on-synthetic-test-on-real (TSTR)
   - Train-on-real-test-on-synthetic (TRTS)
@@ -21,6 +22,7 @@ Experimental evaluation of synthetic data generation for tabular datasets, focus
 ## Coming Soon
 
 This project will demonstrate:
+
 - Practical synthetic data evaluation
 - Privacy-utility tradeoff analysis
 - Guidance on when synthetic data helps vs harms

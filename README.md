@@ -1,6 +1,6 @@
 # ML Portfolio
 
-[![CI](https://github.com/martin/ml-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/martin/ml-portfolio/actions/workflows/ci.yml)
+[![CI](https://github.com/sm4rtm4art/machine_learning/actions/workflows/ci.yml/badge.svg)](https://github.com/sm4rtm4art/machine_learning/actions/workflows/ci.yml)
 [![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
@@ -25,19 +25,21 @@ I leverage modern AI tools to accelerate development while maintaining critical 
 
 ## Projects
 
+**Status key**: 🚧 Active = notebooks/code in progress | 📋 Planned = design docs only
+
 ### Core ML (Start Here)
 
-| Project | Status | Key Technologies | Interconnections |
-|---------|--------|------------------|------------------|
-| [OCR Pipeline](projects/ocr_pipeline/) | 🚧 Active | Tesseract, TrOCR, Donut, preprocessing | → LLM Eval, uses MedGemma |
+| Project | Status | Key Technologies | Planned Interconnections |
+|---------|--------|------------------|--------------------------|
+| [OCR Pipeline](projects/ocr_pipeline/) | 🚧 Active | Tesseract, TrOCR, SVM routing | *Future*: LLM post-processing |
 | [Tabular Boosting Suite](projects/tabular_boosting/) | 📋 Planned | LightGBM, XGBoost, CatBoost, SHAP | → AutoML |
 | [Time Series Forecasting](projects/timeseries_forecasting_covariates/) | 📋 Planned | Darts, NeuralProphet, conformal | Standalone |
 
 ### Advanced Architectures
 
-| Project | Status | Key Technologies | Interconnections |
-|---------|--------|------------------|------------------|
-| [Vision Transformers](projects/vision_ssl_transfer/) | 📋 Planned | ViT, DeiT, Swin, timm | Shares with OCR encoders |
+| Project | Status | Key Technologies | Planned Interconnections |
+|---------|--------|------------------|--------------------------|
+| [Vision SSL Transfer](projects/vision_ssl_transfer/) | 🚧 Active | SSL (SimCLR, MAE), SHAP, timm | Shares encoder patterns with OCR |
 | [Graph Neural Networks](projects/graph_neural_networks/) | 📋 Planned | PyG, DGL, node/graph classification | → Materials Discovery |
 | [LLM Evaluation Harness](projects/llm_eval_harness/) | 📋 Planned | lm-eval-harness, custom metrics | Benchmarks domain experts |
 
@@ -69,15 +71,15 @@ I leverage modern AI tools to accelerate development while maintaining critical 
 
 ### Prerequisites
 
-- Python 3.13+
+- Python 3.13+ (deliberate choice for latest typing features; some ML libraries may lag - tested combinations documented per project)
 - [uv](https://github.com/astral-sh/uv) (recommended) or pip
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/martin/ml-portfolio.git
-cd ml-portfolio
+git clone https://github.com/sm4rtm4art/machine_learning.git
+cd machine_learning
 
 # Install with uv (recommended)
 uv sync --all-extras
@@ -91,21 +93,17 @@ make pre-commit-install
 
 ### Running a Project
 
-Each project follows a consistent CLI interface:
+Active projects follow a consistent CLI interface (planned projects have READMEs only):
 
 ```bash
-# Download data
+# Example: OCR Pipeline (🚧 Active)
 uv run python projects/ocr_pipeline/scripts/download_data.py
-
-# Train a model
 uv run python projects/ocr_pipeline/scripts/train.py
-
-# Evaluate
 uv run python projects/ocr_pipeline/scripts/evaluate.py
-
-# Export to ONNX
 uv run python projects/ocr_pipeline/scripts/export.py
 ```
+
+**Note**: Only projects marked "🚧 Active" have implemented scripts. Projects marked "📋 Planned" contain design documentation only.
 
 ### Start MLflow
 
@@ -119,7 +117,7 @@ make mlflow
 ## Repository Structure
 
 ```
-ml-portfolio/
+machine_learning/
 ├── src/ml_portfolio/        # Shared library code
 │   ├── common/              # Config, logging, paths
 │   ├── metrics/             # Evaluation metrics by domain
@@ -154,7 +152,7 @@ ml-portfolio/
 
 **Notebooks as reports only**: Notebooks are for visualization and communication, not for logic. All code lives in importable modules. This makes testing possible and diffs readable.
 
-**Consistent CLI per project**: Every project exposes the same entry points (`download_data.py`, `train.py`, `evaluate.py`, `export.py`, `serve.py`). This reduces cognitive load and enables automation.
+**Consistent CLI per project**: Active projects follow a standard interface (`download_data.py`, `train.py`, `evaluate.py`, `export.py`, `serve.py`). This reduces cognitive load and enables automation. Planned projects will adopt this structure as they're implemented.
 
 </details>
 
