@@ -1,8 +1,9 @@
 """Dataset handling template."""
 
+from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 from torch.utils.data import Dataset
 
@@ -18,7 +19,7 @@ class DataConfig:
     seed: int = 42
 
 
-class TemplateDataset(Dataset[dict[str, Any]]):
+class TemplateDataset(Dataset[dict[str, Any]]):  # type: ignore[misc]
     """Template dataset class.
 
     Customize this for your specific data format.
@@ -84,13 +85,13 @@ class TemplateDataset(Dataset[dict[str, Any]]):
 
 def create_data_splits(
     data_dir: Path,
-    config: DataConfig,
+    _config: DataConfig,
 ) -> tuple[TemplateDataset, TemplateDataset, TemplateDataset]:
     """Create train/val/test splits.
 
     Args:
         data_dir: Path to data directory.
-        config: Data configuration.
+        _config: Data configuration (reserved for future use).
 
     Returns:
         Tuple of (train_dataset, val_dataset, test_dataset).

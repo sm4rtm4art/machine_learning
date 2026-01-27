@@ -8,6 +8,9 @@ from typing import Any
 
 import torch
 from PIL import Image
+from projects.ocr_pipeline.project.preprocess import (
+    apply_perturbation,
+)
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
@@ -18,13 +21,6 @@ from ml_portfolio.metrics.ocr import (
     compute_confidence_correlation,
     compute_ocr_metrics,
     compute_wer,
-)
-
-from projects.ocr_pipeline.project.preprocess import (
-    apply_gaussian_blur,
-    apply_jpeg_compression,
-    apply_perturbation,
-    apply_rotation,
 )
 
 logger = get_logger(__name__)
@@ -264,16 +260,20 @@ def evaluate_robustness(
                 compute_cer(p, r) for p, r in zip(perturbed_predictions, baseline_references)
             ) / len(perturbed_predictions)
 
-            degradation = ((perturbed_cer - baseline_cer) / baseline_cer * 100) if baseline_cer > 0 else 0
+            degradation = (
+                ((perturbed_cer - baseline_cer) / baseline_cer * 100) if baseline_cer > 0 else 0
+            )
 
-            results.append({
-                "perturbation": perturbation_name,
-                "intensity": intensity,
-                "metric_name": "cer",
-                "baseline_value": baseline_cer,
-                "perturbed_value": perturbed_cer,
-                "degradation_pct": degradation,
-            })
+            results.append(
+                {
+                    "perturbation": perturbation_name,
+                    "intensity": intensity,
+                    "metric_name": "cer",
+                    "baseline_value": baseline_cer,
+                    "perturbed_value": perturbed_cer,
+                    "degradation_pct": degradation,
+                }
+            )
 
     return results
 

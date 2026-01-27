@@ -7,7 +7,6 @@ import typer
 from rich.console import Console
 
 from ml_portfolio.common.logging import get_logger, setup_logging
-from ml_portfolio.common.paths import get_project_paths
 
 app = typer.Typer()
 console = Console()
@@ -49,7 +48,6 @@ def main(
     # Import here to avoid slow startup when just checking help
     import base64
     import io
-    from typing import Optional
 
     import torch
     import uvicorn
@@ -80,16 +78,19 @@ def main(
     # Request/Response models
     class PredictRequest(BaseModel):
         """OCR prediction request."""
+
         image_base64: str
         return_confidence: bool = True
 
     class PredictResponse(BaseModel):
         """OCR prediction response."""
+
         text: str
-        confidence: Optional[float] = None
+        confidence: float | None = None
 
     class HealthResponse(BaseModel):
         """Health check response."""
+
         status: str
         model_loaded: bool
         device: str
@@ -117,9 +118,7 @@ def main(
                     )
 
                     # Decode
-                    text = processor.batch_decode(
-                        outputs.sequences, skip_special_tokens=True
-                    )[0]
+                    text = processor.batch_decode(outputs.sequences, skip_special_tokens=True)[0]
 
                     # Compute confidence
                     if outputs.scores:
@@ -133,16 +132,14 @@ def main(
                         confidence = None
                 else:
                     generated_ids = model.generate(pixel_values, max_length=128)
-                    text = processor.batch_decode(
-                        generated_ids, skip_special_tokens=True
-                    )[0]
+                    text = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
                     confidence = None
 
             return PredictResponse(text=text, confidence=confidence)
 
         except Exception as e:
             logger.exception("Prediction failed")
-            raise HTTPException(status_code=500, detail=str(e))
+            raise HTTPException(status_code=500, detail=str(e)) from e
 
     @api.get("/health", response_model=HealthResponse)
     async def health() -> HealthResponse:

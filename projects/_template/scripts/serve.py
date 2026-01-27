@@ -7,7 +7,6 @@ import typer
 from rich.console import Console
 
 from ml_portfolio.common.logging import get_logger, setup_logging
-from ml_portfolio.common.paths import get_project_paths
 
 app = typer.Typer()
 console = Console()

@@ -44,17 +44,17 @@ graph TB
         UnlabeledData[Unlabeled Images]
         SSL[SSL Algorithm]
         Encoder[Trained Encoder]
-        
+
         UnlabeledData --> SSL
         SSL --> Encoder
     end
-    
+
     subgraph evaluation [Phase 2: Evaluation and Probing]
         LabeledSubset[Small Labeled Subset]
         LinearProbe[Linear Probe]
         KNNProbe[k-NN Probe]
         FineTune[Fine-tuned Classifier]
-        
+
         Encoder --> LinearProbe
         Encoder --> KNNProbe
         Encoder --> FineTune
@@ -62,13 +62,13 @@ graph TB
         LabeledSubset --> KNNProbe
         LabeledSubset --> FineTune
     end
-    
+
     subgraph explainability [Phase 3: Explainability Analysis]
         SHAP[SHAP Values]
         Attention[Attention Maps]
         UMAP[Latent Space UMAP]
         Robustness[Corruption Sweeps]
-        
+
         FineTune --> SHAP
         Encoder --> Attention
         Encoder --> UMAP

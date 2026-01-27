@@ -7,6 +7,13 @@ import mlflow
 import torch
 import typer
 from omegaconf import OmegaConf
+from projects.ocr_pipeline.project.data import SROIEDataset
+from projects.ocr_pipeline.project.eval import (
+    EvalConfig,
+    evaluate,
+    evaluate_robustness,
+    save_results,
+)
 from rich.console import Console
 from rich.table import Table
 from torch.utils.data import DataLoader
@@ -15,14 +22,6 @@ from transformers import TrOCRProcessor, VisionEncoderDecoderModel
 from ml_portfolio.common.logging import get_logger, setup_logging
 from ml_portfolio.common.paths import get_project_paths
 from ml_portfolio.tracking.mlflow_utils import setup_mlflow
-
-from projects.ocr_pipeline.project.data import SROIEDataset
-from projects.ocr_pipeline.project.eval import (
-    evaluate,
-    evaluate_robustness,
-    save_results,
-    EvalConfig,
-)
 
 app = typer.Typer()
 console = Console()
@@ -100,7 +99,7 @@ def main(
 
         # Get model path from MLflow
         client = mlflow.tracking.MlflowClient()
-        run = client.get_run(run_id)
+        client.get_run(run_id)
 
         # Download model artifact
         artifact_path = client.download_artifacts(run_id, "model")

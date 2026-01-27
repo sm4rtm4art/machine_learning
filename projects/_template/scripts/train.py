@@ -71,11 +71,13 @@ def main(
         log_config(config)
         log_reproducibility_info(config)
 
-        mlflow.set_tags({
-            "project": PROJECT_NAME,
-            "stage": "development",
-            "run_type": "training",
-        })
+        mlflow.set_tags(
+            {
+                "project": PROJECT_NAME,
+                "stage": "development",
+                "run_type": "training",
+            }
+        )
 
         # Implement training logic
         # 1. Create datasets

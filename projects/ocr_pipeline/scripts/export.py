@@ -5,13 +5,12 @@ from pathlib import Path
 
 import mlflow
 import typer
+from projects.ocr_pipeline.project.model import TrOCRWrapper
 from rich.console import Console
 
 from ml_portfolio.common.logging import get_logger, setup_logging
 from ml_portfolio.common.paths import get_project_paths
 from ml_portfolio.tracking.mlflow_utils import setup_mlflow
-
-from projects.ocr_pipeline.project.model import TrOCRWrapper, ModelConfig
 
 app = typer.Typer()
 console = Console()
@@ -61,7 +60,6 @@ def main(
     model_path = Path(artifact_path) / "best_model"
 
     # Create wrapper
-    config = ModelConfig(name=str(model_path))
     wrapper = TrOCRWrapper.from_pretrained(model_path)
 
     # Export to ONNX
@@ -77,7 +75,7 @@ def main(
             logger.info(f"Quantizing to INT8: {quantized_path}")
 
             try:
-                from onnxruntime.quantization import quantize_dynamic, QuantType
+                from onnxruntime.quantization import QuantType, quantize_dynamic
 
                 quantize_dynamic(
                     str(onnx_path),
@@ -90,13 +88,15 @@ def main(
                 quantized_size = quantized_path.stat().st_size / (1024 * 1024)
                 compression = (1 - quantized_size / original_size) * 100
 
-                console.print(f"\n[green]Quantization complete![/green]")
+                console.print("\n[green]Quantization complete![/green]")
                 console.print(f"Original size: {original_size:.1f} MB")
                 console.print(f"Quantized size: {quantized_size:.1f} MB")
                 console.print(f"Compression: {compression:.1f}%")
 
             except ImportError:
-                console.print("[yellow]onnxruntime-quantization not available. Skipping quantization.[/yellow]")
+                console.print(
+                    "[yellow]onnxruntime-quantization not available. Skipping quantization.[/yellow]"
+                )
             except Exception as e:
                 console.print(f"[red]Quantization failed: {e}[/red]")
 
@@ -106,13 +106,13 @@ def main(
             if quantize and quantized_path.exists():
                 mlflow.log_artifact(str(quantized_path), "exports/onnx")
 
-        console.print(f"\n[green]Export complete![/green]")
+        console.print("\n[green]Export complete![/green]")
         console.print(f"ONNX model: {onnx_path}")
 
     except Exception as e:
         console.print(f"[red]Export failed: {e}[/red]")
         logger.exception("ONNX export failed")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from e
 
 
 @app.command()
@@ -157,7 +157,7 @@ def benchmark(
 
     # Report
     latencies_arr = np.array(latencies)
-    console.print(f"\n[bold]Latency Statistics (ms)[/bold]")
+    console.print("\n[bold]Latency Statistics (ms)[/bold]")
     console.print(f"  Mean:   {np.mean(latencies_arr):.2f}")
     console.print(f"  Std:    {np.std(latencies_arr):.2f}")
     console.print(f"  P50:    {np.percentile(latencies_arr, 50):.2f}")

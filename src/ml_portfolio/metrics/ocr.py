@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
-from numpy.typing import NDArray
 
 
 @dataclass
@@ -42,7 +41,7 @@ def levenshtein_distance(s1: str, s2: str) -> int:
     if len(s2) == 0:
         return len(s1)
 
-    previous_row = range(len(s2) + 1)
+    previous_row = list(range(len(s2) + 1))
 
     for i, c1 in enumerate(s1):
         current_row = [i + 1]
@@ -170,7 +169,7 @@ def compute_field_metrics(
     """
     results = {}
 
-    for field_name in references.keys():
+    for field_name in references:
         if field_name not in predictions:
             continue
 

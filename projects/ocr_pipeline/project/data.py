@@ -1,9 +1,9 @@
 """SROIE dataset handling."""
 
-import json
+from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 from PIL import Image
 from torch.utils.data import Dataset
@@ -34,7 +34,7 @@ class DataConfig:
     seed: int = 42
 
 
-class SROIEDataset(Dataset[dict[str, Any]]):
+class SROIEDataset(Dataset[dict[str, Any]]):  # type: ignore[misc]
     """SROIE receipts dataset for OCR.
 
     The SROIE dataset contains receipt images with structured fields:

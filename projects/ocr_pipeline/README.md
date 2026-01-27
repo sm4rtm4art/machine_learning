@@ -42,36 +42,36 @@ graph TB
         TrOCR[TrOCR]
         Florence[Florence-2]
         Donut[Donut]
-        
+
         Image --> Tesseract
         Image --> TrOCR
         Image --> Florence
         Image --> Donut
-        
+
         Tesseract --> OCROutput[Raw Text + Confidence]
         TrOCR --> OCROutput
         Florence --> OCROutput
         Donut --> OCROutput
     end
-    
+
     subgraph tier2 [Tier 2: Document Classification and Routing]
         Encoder[Visual Encoder]
         SVM[SVM Classifier]
         Route{Doc Type + Confidence}
         Auto[Route to Pipeline]
         Review[Unknown Type Review]
-        
+
         Image --> Encoder
         Encoder --> SVM
         SVM --> Route
         Route -->|Known type| Auto
         Route -->|Unknown/low conf| Review
     end
-    
+
     subgraph downstream [Downstream Understanding]
         LLM[LLM Evaluation]
         Knowledge[Knowledge Graphs]
-        
+
         OCROutput -.-> LLM
         LLM -.-> Knowledge
     end

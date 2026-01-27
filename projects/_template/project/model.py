@@ -1,8 +1,10 @@
 """Model definition template."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import cast
 
 import torch
 from torch import nn
@@ -17,7 +19,7 @@ class ModelConfig:
     num_classes: int | None = None
 
 
-class TemplateModel(nn.Module):
+class TemplateModel(nn.Module):  # type: ignore[misc]
     """Template model class.
 
     Customize this for your specific model architecture.
@@ -50,7 +52,7 @@ class TemplateModel(nn.Module):
         raise NotImplementedError("Implement forward pass")
 
     @classmethod
-    def from_config(cls, config: ModelConfig) -> "TemplateModel":
+    def from_config(cls, config: ModelConfig) -> TemplateModel:
         """Create model from configuration.
 
         Args:
@@ -62,7 +64,7 @@ class TemplateModel(nn.Module):
         return cls(config)
 
     @classmethod
-    def from_pretrained(cls, path: Path) -> "TemplateModel":
+    def from_pretrained(cls, path: Path) -> TemplateModel:
         """Load model from checkpoint.
 
         Args:
@@ -105,5 +107,5 @@ def create_model(config: ModelConfig, device: str = "cpu") -> TemplateModel:
         Initialized model on specified device.
     """
     model = TemplateModel.from_config(config)
-    model = model.to(device)
+    model = cast(TemplateModel, model.to(device))
     return model

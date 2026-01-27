@@ -5,12 +5,13 @@ import pytest
 
 def test_imports() -> None:
     """Test that project modules can be imported."""
-    from projects._template.project import data, model, train, eval  # noqa: F401
+    from projects._template.project import data, eval, model, train  # noqa: F401
 
 
 def test_config_loads() -> None:
     """Test that default config loads without errors."""
     from omegaconf import OmegaConf
+
     from ml_portfolio.common.paths import get_project_paths
 
     paths = get_project_paths("_template")
@@ -25,7 +26,7 @@ def test_config_loads() -> None:
 @pytest.mark.skip(reason="Model not implemented")
 def test_model_creation() -> None:
     """Test that model can be created."""
-    from projects._template.project.model import TemplateModel, ModelConfig
+    from projects._template.project.model import ModelConfig, TemplateModel
 
     config = ModelConfig(name="test")
     model = TemplateModel(config)
@@ -36,7 +37,7 @@ def test_model_creation() -> None:
 def test_model_forward() -> None:
     """Test that model forward pass works."""
     import torch
-    from projects._template.project.model import TemplateModel, ModelConfig
+    from projects._template.project.model import ModelConfig, TemplateModel
 
     config = ModelConfig(name="test")
     model = TemplateModel(config)

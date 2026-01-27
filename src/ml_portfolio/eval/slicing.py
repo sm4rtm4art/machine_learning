@@ -1,9 +1,10 @@
 """Slice-based evaluation for subgroup analysis."""
 
 import csv
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import numpy as np
 from numpy.typing import NDArray
@@ -104,16 +105,16 @@ class SliceEvaluator:
             raise ValueError("No results to save. Call evaluate first.")
 
         # Get all metric names
-        metric_names = set()
+        metric_names: set[str] = set()
         for result in self.results:
             metric_names.update(result.metrics.keys())
-        metric_names = sorted(metric_names)
+        metric_names_sorted = sorted(metric_names)
 
         with open(path, "w", newline="") as f:
             writer = csv.writer(f)
 
             # Header
-            header = ["slice_name", "slice_value", "sample_count", *metric_names]
+            header = ["slice_name", "slice_value", "sample_count", *metric_names_sorted]
             writer.writerow(header)
 
             # Data
@@ -123,7 +124,7 @@ class SliceEvaluator:
                     result.slice_value,
                     result.sample_count,
                 ]
-                for metric in metric_names:
+                for metric in metric_names_sorted:
                     row.append(result.metrics.get(metric, ""))
                 writer.writerow(row)
 
@@ -135,7 +136,7 @@ class SliceEvaluator:
         """
         summary = {}
 
-        for slice_name in self.slices.keys():
+        for slice_name in self.slices:
             slice_results = [r for r in self.results if r.slice_name == slice_name]
 
             if not slice_results:
@@ -151,7 +152,9 @@ class SliceEvaluator:
                     "min": min(values),
                     "max": max(values),
                     "range": max(values) - min(values),
-                    "worst_slice": max(slice_results, key=lambda r: r.metrics[first_metric]).slice_value,
+                    "worst_slice": max(
+                        slice_results, key=lambda r: r.metrics[first_metric]
+                    ).slice_value,
                 }
 
         return summary

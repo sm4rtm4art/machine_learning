@@ -1,8 +1,9 @@
 """TrOCR model wrapper."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 import torch
 from PIL import Image
@@ -56,7 +57,7 @@ class TrOCRWrapper:
         self.model.eval()
 
     @classmethod
-    def from_config(cls, config: ModelConfig, device: str = "cpu") -> "TrOCRWrapper":
+    def from_config(cls, config: ModelConfig, device: str = "cpu") -> TrOCRWrapper:
         """Create wrapper from configuration.
 
         Args:
@@ -69,7 +70,7 @@ class TrOCRWrapper:
         return cls(config, device)
 
     @classmethod
-    def from_pretrained(cls, path: Path, device: str = "cpu") -> "TrOCRWrapper":
+    def from_pretrained(cls, path: Path, device: str = "cpu") -> TrOCRWrapper:
         """Load wrapper from saved checkpoint.
 
         Args:
@@ -104,9 +105,7 @@ class TrOCRWrapper:
         with torch.no_grad():
             # Process image
             if isinstance(image, Image.Image):
-                pixel_values = self.processor(
-                    images=image, return_tensors="pt"
-                ).pixel_values
+                pixel_values = self.processor(images=image, return_tensors="pt").pixel_values
             else:
                 pixel_values = image.unsqueeze(0) if image.dim() == 3 else image
 
@@ -156,9 +155,7 @@ class TrOCRWrapper:
         with torch.no_grad():
             # Process images
             if isinstance(images, list):
-                pixel_values = self.processor(
-                    images=images, return_tensors="pt"
-                ).pixel_values
+                pixel_values = self.processor(images=images, return_tensors="pt").pixel_values
             else:
                 pixel_values = images
 
@@ -174,10 +171,7 @@ class TrOCRWrapper:
             # Decode
             texts = self.processor.batch_decode(generated_ids, skip_special_tokens=True)
 
-            return [
-                PredictionResult(text=text, confidence=1.0)
-                for text in texts
-            ]
+            return [PredictionResult(text=text, confidence=1.0) for text in texts]
 
     def save(self, path: Path) -> None:
         """Save model to directory.
@@ -270,7 +264,7 @@ class ONNXRunner:
         pixel_values = self.processor(images=image, return_tensors="np").pixel_values
 
         # Run inference
-        outputs = self.session.run(None, {"pixel_values": pixel_values})
+        self.session.run(None, {"pixel_values": pixel_values})
 
         # Note: This only runs the encoder
         # Full inference requires decoder implementation

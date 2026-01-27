@@ -122,7 +122,7 @@ dev-dependencies = [
 ]
 
 [tool.ruff]
-target-version = "py314"
+target-version = "py313"
 line-length = 100
 src = ["src", "projects"]
 
@@ -150,9 +150,12 @@ known-first-party = ["ml_portfolio"]
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
 "projects/*/scripts/*.py" = ["ARG001"]
+# Notebooks are interactive artifacts; keep them formatted, but relax strict lint rules that
+# conflict with common notebook patterns (imports after setup, widget callbacks, etc.).
+"**/*.ipynb" = ["E402", "E722", "ARG001", "W293"]
 
 [tool.mypy]
-python_version = "3.14"
+python_version = "3.13"
 strict = true
 warn_return_any = true
 warn_unused_ignores = true

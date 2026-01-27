@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 """Download and prepare SROIE dataset."""
 
-import shutil
-import zipfile
 from pathlib import Path
 
 import typer
 from rich.console import Console
-from rich.progress import Progress
 
 from ml_portfolio.common.logging import get_logger, setup_logging
 from ml_portfolio.common.paths import get_project_paths

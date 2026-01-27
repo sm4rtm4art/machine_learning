@@ -64,7 +64,7 @@ def train_epoch(
     progress = tqdm(dataloader, desc="Training")
     optimizer.zero_grad()
 
-    for batch_idx, batch in enumerate(progress):
+    for batch_idx, _batch in enumerate(progress):
         # Move batch to device
         # batch = {k: v.to(device) for k, v in batch.items()}
 
@@ -112,7 +112,7 @@ def validate(
     num_batches = 0
 
     with torch.no_grad():
-        for batch in tqdm(dataloader, desc="Validation"):
+        for _batch in tqdm(dataloader, desc="Validation"):
             # Move batch to device
             # batch = {k: v.to(device) for k, v in batch.items()}
 

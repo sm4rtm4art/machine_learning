@@ -3,7 +3,7 @@
 import hashlib
 import json
 import subprocess
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -44,9 +44,9 @@ def get_or_create_experiment(name: str) -> str:
     experiment = mlflow.get_experiment_by_name(name)
 
     if experiment is None:
-        experiment_id = mlflow.create_experiment(name)
+        experiment_id = str(mlflow.create_experiment(name))
     else:
-        experiment_id = experiment.experiment_id
+        experiment_id = str(experiment.experiment_id)
 
     mlflow.set_experiment(name)
     return experiment_id
@@ -80,6 +80,7 @@ def log_config(config: DictConfig | dict[str, Any], artifact_path: str = "config
         OmegaConf.save(config, config_path)
     else:
         import yaml
+
         with open(config_path, "w") as f:
             yaml.dump(config_dict, f)
 
@@ -115,7 +116,7 @@ def log_reproducibility_info(config: DictConfig | dict[str, Any] | None = None) 
     tags["environment_hash"] = env_hash
 
     # Timestamp
-    tags["run_timestamp"] = datetime.now(timezone.utc).isoformat()
+    tags["run_timestamp"] = datetime.now(UTC).isoformat()
 
     # Config hash
     if config is not None:

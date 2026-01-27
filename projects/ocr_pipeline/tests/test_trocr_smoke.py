@@ -5,14 +5,20 @@ import pytest
 
 def test_imports() -> None:
     """Test that project modules can be imported."""
-    from projects.ocr_pipeline.project import data, model  # noqa: F401
-    from projects.ocr_pipeline.project import preprocess, postprocess  # noqa: F401
-    from projects.ocr_pipeline.project import train, eval  # noqa: F401
+    from projects.ocr_pipeline.project import (  # noqa: F401  # noqa: F401  # noqa: F401
+        data,
+        eval,
+        model,
+        postprocess,
+        preprocess,
+        train,
+    )
 
 
 def test_config_loads() -> None:
     """Test that default config loads without errors."""
     from omegaconf import OmegaConf
+
     from ml_portfolio.common.paths import get_project_paths
 
     paths = get_project_paths("ocr_pipeline")
@@ -57,8 +63,8 @@ def test_preprocessing() -> None:
 def test_postprocessing() -> None:
     """Test text postprocessing functions."""
     from projects.ocr_pipeline.project.postprocess import (
-        TextPostprocessor,
         SROIEFieldExtractor,
+        TextPostprocessor,
     )
 
     # Test postprocessor
@@ -73,7 +79,7 @@ def test_postprocessing() -> None:
 
 def test_ocr_metrics() -> None:
     """Test OCR metrics computation."""
-    from ml_portfolio.metrics.ocr import compute_cer, compute_wer, compute_ocr_metrics
+    from ml_portfolio.metrics.ocr import compute_cer, compute_ocr_metrics, compute_wer
 
     # Perfect match
     assert compute_cer("hello", "hello") == 0.0
@@ -99,7 +105,7 @@ def test_ocr_metrics() -> None:
 @pytest.mark.skip(reason="Requires model download")
 def test_model_creation() -> None:
     """Test that TrOCR model can be created."""
-    from projects.ocr_pipeline.project.model import TrOCRWrapper, ModelConfig
+    from projects.ocr_pipeline.project.model import ModelConfig, TrOCRWrapper
 
     config = ModelConfig(name="microsoft/trocr-base-printed")
     wrapper = TrOCRWrapper(config, device="cpu")
@@ -110,7 +116,7 @@ def test_model_creation() -> None:
 def test_model_inference() -> None:
     """Test model inference on dummy image."""
     from PIL import Image
-    from projects.ocr_pipeline.project.model import TrOCRWrapper, ModelConfig
+    from projects.ocr_pipeline.project.model import ModelConfig, TrOCRWrapper
 
     config = ModelConfig(name="microsoft/trocr-base-printed")
     wrapper = TrOCRWrapper(config, device="cpu")

@@ -11,7 +11,6 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from ml_portfolio.common.logging import get_logger
-from ml_portfolio.eval.slicing import SliceEvaluator
 
 logger = get_logger(__name__)
 
@@ -59,7 +58,7 @@ def evaluate(
     all_targets: list[Any] = []
 
     with torch.no_grad():
-        for batch in tqdm(dataloader, desc="Evaluating"):
+        for _batch in tqdm(dataloader, desc="Evaluating"):
             # Move batch to device and run inference
             # predictions = model(batch["input"])
             # targets = batch["target"]
@@ -86,16 +85,16 @@ def evaluate(
 
 
 def compute_metrics(
-    predictions: list[Any],
-    targets: list[Any],
-    metric_names: list[str] | None = None,
+    _predictions: list[Any],
+    _targets: list[Any],
+    _metric_names: list[str] | None = None,
 ) -> dict[str, float]:
     """Compute evaluation metrics.
 
     Args:
-        predictions: Model predictions.
-        targets: Ground truth targets.
-        metric_names: List of metrics to compute.
+        _predictions: Model predictions (placeholder).
+        _targets: Ground truth targets (placeholder).
+        _metric_names: List of metrics to compute (placeholder).
 
     Returns:
         Dictionary of metric name to value.
@@ -104,7 +103,7 @@ def compute_metrics(
 
     # Implement metric computation based on your problem type
     # Example for classification:
-    # if "accuracy" in (metric_names or []):
+    # if "accuracy" in (_metric_names or []):
     #     metrics["accuracy"] = accuracy_score(targets, predictions)
 
     return metrics
@@ -147,18 +146,18 @@ def save_results(
 
 
 def run_robustness_evaluation(
-    model: nn.Module,
-    dataloader: DataLoader[Any],
+    _model: nn.Module,
+    _dataloader: DataLoader[Any],
     perturbations: list[dict[str, Any]],
-    device: str = "cpu",
+    _device: str = "cpu",
 ) -> list[dict[str, Any]]:
     """Run robustness evaluation with perturbations.
 
     Args:
-        model: Model to evaluate.
-        dataloader: Evaluation dataloader.
+        _model: Model to evaluate (placeholder).
+        _dataloader: Evaluation dataloader (placeholder).
         perturbations: List of perturbation configs.
-        device: Device to use.
+        _device: Device to use (placeholder).
 
     Returns:
         List of results per perturbation.

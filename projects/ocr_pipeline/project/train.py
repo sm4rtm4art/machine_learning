@@ -105,10 +105,12 @@ def train_epoch(
         total_loss += loss.item() * config.gradient_accumulation_steps
         num_steps += 1
 
-        progress.set_postfix({
-            "loss": total_loss / num_steps,
-            "lr": scheduler.get_last_lr()[0],
-        })
+        progress.set_postfix(
+            {
+                "loss": total_loss / num_steps,
+                "lr": scheduler.get_last_lr()[0],
+            }
+        )
 
     return total_loss / max(num_steps, 1)
 
@@ -118,7 +120,7 @@ def validate(
     dataloader: DataLoader[Any],
     processor: Any,
     device: str,
-    config: TrainConfig,
+    _config: TrainConfig,
 ) -> tuple[float, float]:
     """Validate model.
 
@@ -127,7 +129,7 @@ def validate(
         dataloader: Validation dataloader.
         processor: TrOCR processor for decoding.
         device: Device to use.
-        config: Training configuration.
+        _config: Training configuration (reserved for future use).
 
     Returns:
         Tuple of (average loss, average CER).
@@ -230,7 +232,9 @@ def train(
         val_loss, val_cer = validate(model, val_dataloader, processor, device, config)
         val_cers.append(val_cer)
 
-        logger.info(f"Train loss: {train_loss:.4f}, Val loss: {val_loss:.4f}, Val CER: {val_cer:.4f}")
+        logger.info(
+            f"Train loss: {train_loss:.4f}, Val loss: {val_loss:.4f}, Val CER: {val_cer:.4f}"
+        )
 
         # Early stopping check
         if val_cer < best_val_cer:

@@ -1,11 +1,10 @@
 """Image preprocessing for OCR pipeline."""
 
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any
 
 import numpy as np
-from numpy.typing import NDArray
-from PIL import Image, ImageFilter, ImageOps
+from PIL import Image, ImageFilter
 
 from ml_portfolio.common.logging import get_logger
 
@@ -158,7 +157,7 @@ def apply_rotation(image: Image.Image, degrees: float) -> Image.Image:
     return image.rotate(degrees, expand=False, fillcolor=(255, 255, 255))
 
 
-def apply_jpeg_compression(image: Image.Image, quality: int) -> Image.Image:
+def apply_jpeg_compression(image: Image.Image, quality: float) -> Image.Image:
     """Apply JPEG compression artifacts.
 
     Args:
@@ -171,7 +170,8 @@ def apply_jpeg_compression(image: Image.Image, quality: int) -> Image.Image:
     import io
 
     buffer = io.BytesIO()
-    image.save(buffer, format="JPEG", quality=quality)
+    quality_int = max(1, min(100, int(round(quality))))
+    image.save(buffer, format="JPEG", quality=quality_int)
     buffer.seek(0)
     return Image.open(buffer).convert("RGB")
 
@@ -225,7 +225,7 @@ def apply_noise(image: Image.Image, intensity: float = 0.1) -> Image.Image:
 
 
 # Perturbation registry for robustness evaluation
-PERTURBATIONS = {
+PERTURBATIONS: dict[str, Callable[[Image.Image, float], Image.Image]] = {
     "gaussian_blur": apply_gaussian_blur,
     "rotation": apply_rotation,
     "jpeg_compression": apply_jpeg_compression,

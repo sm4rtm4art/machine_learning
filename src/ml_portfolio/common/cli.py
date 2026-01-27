@@ -15,13 +15,13 @@ app = typer.Typer(
 console = Console()
 
 
-@app.command()
+@app.command()  # type: ignore[untyped-decorator]
 def version() -> None:
     """Show version information."""
     console.print(f"ML Portfolio v{__version__}")
 
 
-@app.command()
+@app.command()  # type: ignore[untyped-decorator]
 def info() -> None:
     """Show repository information."""
     repo_root = get_repo_root()
@@ -39,7 +39,7 @@ def info() -> None:
     console.print(table)
 
 
-@app.command()
+@app.command()  # type: ignore[untyped-decorator]
 def list_projects() -> None:
     """List all available projects."""
     repo_root = get_repo_root()

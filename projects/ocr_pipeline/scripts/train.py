@@ -7,6 +7,8 @@ import mlflow
 import torch
 import typer
 from omegaconf import OmegaConf
+from projects.ocr_pipeline.project.data import SROIEDataset
+from projects.ocr_pipeline.project.train import TrainConfig, train
 from rich.console import Console
 from transformers import TrOCRProcessor, VisionEncoderDecoderModel
 
@@ -17,9 +19,6 @@ from ml_portfolio.tracking.mlflow_utils import (
     log_reproducibility_info,
     setup_mlflow,
 )
-
-from projects.ocr_pipeline.project.data import SROIEDataset, DataConfig
-from projects.ocr_pipeline.project.train import train, TrainConfig
 
 app = typer.Typer()
 console = Console()
@@ -140,19 +139,23 @@ def main(
         log_config(config)
         log_reproducibility_info(config)
 
-        mlflow.set_tags({
-            "project": PROJECT_NAME,
-            "stage": "development",
-            "run_type": "training",
-            "model_name": config.model.name,
-            "device": device,
-        })
+        mlflow.set_tags(
+            {
+                "project": PROJECT_NAME,
+                "stage": "development",
+                "run_type": "training",
+                "model_name": config.model.name,
+                "device": device,
+            }
+        )
 
         # Log dataset info
-        mlflow.log_params({
-            "train_samples": len(train_dataset),
-            "val_samples": len(val_dataset),
-        })
+        mlflow.log_params(
+            {
+                "train_samples": len(train_dataset),
+                "val_samples": len(val_dataset),
+            }
+        )
 
         # Create training config
         train_config = TrainConfig(
@@ -180,10 +183,12 @@ def main(
         )
 
         # Log final metrics
-        mlflow.log_metrics({
-            "best_val_cer": result.best_val_cer,
-            "best_epoch": result.best_epoch,
-        })
+        mlflow.log_metrics(
+            {
+                "best_val_cer": result.best_val_cer,
+                "best_epoch": result.best_epoch,
+            }
+        )
 
         # Log training curves
         for epoch, (loss, cer) in enumerate(zip(result.train_losses, result.val_cers)):
@@ -192,8 +197,10 @@ def main(
         # Log model
         mlflow.log_artifact(str(result.model_path), "model")
 
-        console.print(f"\n[green]Training complete![/green]")
-        console.print(f"Best validation CER: {result.best_val_cer:.4f} at epoch {result.best_epoch + 1}")
+        console.print("\n[green]Training complete![/green]")
+        console.print(
+            f"Best validation CER: {result.best_val_cer:.4f} at epoch {result.best_epoch + 1}"
+        )
         console.print(f"Model saved to: {result.model_path}")
         console.print(f"MLflow run ID: {mlflow.active_run().info.run_id}")
 
