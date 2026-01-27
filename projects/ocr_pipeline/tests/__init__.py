@@ -1,1 +1,0 @@
-# TrOCR project tests
