@@ -64,10 +64,14 @@ tabular = [
     "xgboost>=2.0.0",
     "catboost>=1.2.0",
     "optuna>=3.5.0",
-    "shap>=0.44.0",
+    # SHAP depends on numba/llvmlite, which frequently lags newest Python releases.
+    # Keep it optional on Python 3.13+ so `uv sync --all-extras` works in CI.
+    "shap>=0.44.0; python_version < '3.13'",
 ]
 timeseries = [
-    "darts>=0.27.0",
+    # Darts currently pulls in SHAP → numba/llvmlite which can lag newest Python.
+    # Keep it optional on Python 3.13+ so `uv sync --all-extras` works in CI.
+    "darts>=0.27.0; python_version < '3.13'",
     "statsmodels>=0.14.0",
 ]
 serving = [
@@ -95,8 +99,8 @@ all = [
 ]
 
 [project.urls]
-Repository = "https://github.com/martin/ml-portfolio"
-Documentation = "https://github.com/martin/ml-portfolio#readme"
+Repository = "https://github.com/sm4rtm4art/machine_learning"
+Documentation = "https://github.com/sm4rtm4art/machine_learning#readme"
 
 [project.scripts]
 ml-portfolio = "ml_portfolio.common.cli:app"
