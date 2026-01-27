@@ -5,7 +5,7 @@ import json
 import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import mlflow
 from omegaconf import DictConfig, OmegaConf
@@ -64,6 +64,10 @@ def log_config(config: DictConfig | dict[str, Any], artifact_path: str = "config
         config_dict = OmegaConf.to_container(config, resolve=True)
     else:
         config_dict = config
+
+    if not isinstance(config_dict, dict):
+        raise TypeError("MLflow config must be a mapping (dict-like)")
+    config_dict = cast(dict[str, Any], config_dict)
 
     # Log as params (flattened)
     flat_params = _flatten_dict(config_dict)

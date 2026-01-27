@@ -1,5 +1,8 @@
 """CLI utilities and main entry point."""
 
+from collections.abc import Callable
+from typing import Any, TypeVar
+
 import typer
 from rich.console import Console
 from rich.table import Table
@@ -14,14 +17,21 @@ app = typer.Typer(
 )
 console = Console()
 
+F = TypeVar("F", bound=Callable[..., Any])
 
-@app.command()  # type: ignore[untyped-decorator]
+
+def command(*args: Any, **kwargs: Any) -> Callable[[F], F]:
+    """Typed wrapper for Typer's decorator."""
+    return app.command(*args, **kwargs)
+
+
+@command()
 def version() -> None:
     """Show version information."""
     console.print(f"ML Portfolio v{__version__}")
 
 
-@app.command()  # type: ignore[untyped-decorator]
+@command()
 def info() -> None:
     """Show repository information."""
     repo_root = get_repo_root()
@@ -39,7 +49,7 @@ def info() -> None:
     console.print(table)
 
 
-@app.command()  # type: ignore[untyped-decorator]
+@command()
 def list_projects() -> None:
     """List all available projects."""
     repo_root = get_repo_root()

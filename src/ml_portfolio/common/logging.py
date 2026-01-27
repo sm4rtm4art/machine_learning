@@ -2,10 +2,12 @@
 
 import logging
 import sys
+from contextlib import AbstractContextManager
 from functools import lru_cache
-from typing import Any
+from typing import Any, cast
 
 import structlog
+from structlog.stdlib import BoundLogger
 from structlog.typing import Processor
 
 from ml_portfolio.common.config import get_settings
@@ -74,14 +76,14 @@ def get_logger(name: str | None = None) -> structlog.stdlib.BoundLogger:
     Returns:
         Configured structlog logger.
     """
-    return structlog.get_logger(name)
+    return cast(BoundLogger, structlog.get_logger(name))
 
 
-def log_context(**kwargs: Any) -> structlog.contextvars.bound_contextvars:
+def log_context(**kwargs: Any) -> AbstractContextManager[None]:
     """Context manager to add context to all logs within the block.
 
     Example:
         with log_context(run_id="abc123", project="ocr"):
             logger.info("Starting training")  # Includes run_id and project
     """
-    return structlog.contextvars.bound_contextvars(**kwargs)
+    return cast(AbstractContextManager[None], structlog.contextvars.bound_contextvars(**kwargs))
