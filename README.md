@@ -12,14 +12,14 @@ A collection of production-quality machine learning projects demonstrating rigor
 
 ## Philosophy
 
-This portfolio represents my approach to applied machine learning: **Human in the Loop + AI Assistance**.
+This portfolio is about **learning by building** — making steady progress through small, runnable experiments and tight feedback loops.
 
-I leverage modern AI tools to accelerate development while maintaining critical oversight on:
-- **Evaluation rigor** — Every model is measured against meaningful metrics, not just accuracy
-- **Reproducibility** — Every experiment is tracked, versioned, and reproducible
-- **Production readiness** — Code is structured for deployment, not just notebooks
+Principles I try to follow:
+- **Start small, then scale**: get an end-to-end baseline working before adding complexity
+- **Understand before hacking**: prefer reading docs, inspecting failures, and writing minimal repros over reverse‑engineering libraries in the dark
+- **Make progress legible**: scripts/configs/tests over notebooks, with decisions and results recorded
 
-> The goal isn't to show I can train models. It's to demonstrate I understand *when* a model works, *why* it fails, and *how* to ship it.
+> The goal isn't to look productive. It's to understand *when* a model works, *why* it fails, and *how* to fix it — without getting stuck in debugging hell.
 
 ---
 
