@@ -49,18 +49,30 @@ jobs:
       - name: Set up Python
         run: uv python install ${{ env.PYTHON_VERSION }}
 
-      # Wir installieren nbstripout temporär, um zu prüfen
       - name: Install nbstripout
         run: uv tool install nbstripout
 
-      # PRÜFUNG: Sind die Notebooks "gestripped" (ohne Output)?
-      # Das ist viel besser als ein Size-Check. Wenn Outputs drin sind,
-      # schlägt dieser Job fehl.
+      # Check if notebooks are clean (no outputs/execution counts)
+      # Strategy: run nbstripout and check if it would change anything
       - name: Check for unstripped notebooks
         run: |
           echo "Checking if notebooks are clean (no outputs)..."
-          # Findet alle .ipynb und prüft sie
-          uv run nbstripout --is-stripped $(find . -name "*.ipynb")
+          FAILED=0
+          for nb in $(find . -name "*.ipynb" -not -path "./.git/*" -not -path "./.venv/*"); do
+            # Compare original with stripped version
+            if ! diff -q "$nb" <(nbstripout --textconv "$nb") > /dev/null 2>&1; then
+              echo "❌ Has outputs: $nb"
+              FAILED=1
+            else
+              echo "✓ Clean: $nb"
+            fi
+          done
+          if [ $FAILED -eq 1 ]; then
+            echo ""
+            echo "Some notebooks have outputs. Run 'uv run nbstripout <notebook>' to clean them."
+            exit 1
+          fi
+          echo "All notebooks are clean!"
 
   # ------------------------------------------------------------------
   # 3. TESTS (Pytest & Coverage)
@@ -131,3 +143,4 @@ jobs:
           else
             echo "All checks passed!"
             exit 0
+          fi
