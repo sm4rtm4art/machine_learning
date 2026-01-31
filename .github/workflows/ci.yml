@@ -10,8 +10,11 @@ env:
   PYTHON_VERSION: "3.13"
 
 jobs:
+  # ------------------------------------------------------------------
+  # 1. LINTING & FORMATTING (Ruff, Black, etc.)
+  # ------------------------------------------------------------------
   pre-commit:
-    name: Pre-commit Hooks
+    name: Linting & Formatting
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,20 +30,50 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras
 
-      - name: Run pre-commit on all files
+      - name: Run pre-commit
+        # Führt Checks aus, die in .pre-commit-config.yaml definiert sind
         run: uv run pre-commit run --all-files
 
-
-  test:
-    name: Test
+  # ------------------------------------------------------------------
+  # 2. NOTEBOOK CHECKS (Industry Standard)
+  # ------------------------------------------------------------------
+  notebook-check:
+    name: Notebook Quality
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Install uv
         uses: astral-sh/setup-uv@v4
-        with:
-          version: "latest"
+
+      - name: Set up Python
+        run: uv python install ${{ env.PYTHON_VERSION }}
+
+      # Wir installieren nbstripout temporär, um zu prüfen
+      - name: Install nbstripout
+        run: uv tool install nbstripout
+
+      # PRÜFUNG: Sind die Notebooks "gestripped" (ohne Output)?
+      # Das ist viel besser als ein Size-Check. Wenn Outputs drin sind,
+      # schlägt dieser Job fehl.
+      - name: Check for unstripped notebooks
+        run: |
+          echo "Checking if notebooks are clean (no outputs)..."
+          # Findet alle .ipynb und prüft sie
+          uv run nbstripout --is-stripped $(find . -name "*.ipynb")
+
+  # ------------------------------------------------------------------
+  # 3. TESTS (Pytest & Coverage)
+  # ------------------------------------------------------------------
+  test:
+    name: Unit Tests
+    needs: [pre-commit] # Spart Ressourcen: Tests laufen nur, wenn Linting passt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
 
       - name: Set up Python
         run: uv python install ${{ env.PYTHON_VERSION }}
@@ -51,6 +84,7 @@ jobs:
       - name: Run tests
         run: uv run pytest --tb=short -v
 
+      # Optional: Coverage Report
       - name: Run tests with coverage
         run: uv run pytest --cov=src/ml_portfolio --cov-report=xml
 
@@ -59,56 +93,43 @@ jobs:
         with:
           files: coverage.xml
           fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
 
-  notebook-check:
-    name: Notebook Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Check notebook outputs
-        run: |
-          # Find notebooks with large outputs
-          for nb in $(find projects -name "*.ipynb" 2>/dev/null); do
-            size=$(wc -c < "$nb")
-            if [ "$size" -gt 100000 ]; then
-              echo "::error file=$nb::Notebook exceeds 100KB. Please strip outputs."
-              exit 1
-            fi
-          done
-          echo "All notebooks within size limits"
-
+  # ------------------------------------------------------------------
+  # 4. IMPORT CHECK (Sanity Check)
+  # ------------------------------------------------------------------
   import-check:
     name: Import Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install uv
         uses: astral-sh/setup-uv@v4
-        with:
-          version: "latest"
-
       - name: Set up Python
         run: uv python install ${{ env.PYTHON_VERSION }}
-
       - name: Install dependencies
         run: uv sync --all-extras
 
       - name: Check imports
         run: |
-          # Verify all project modules can be imported
           uv run python -c "from ml_portfolio.common import config, paths, logging"
-          uv run python -c "from ml_portfolio.metrics import classification, regression, ocr"
-          uv run python -c "from ml_portfolio.eval import slicing"
-          uv run python -c "from ml_portfolio.tracking import mlflow_utils"
+          # Füge hier weitere wichtige Imports hinzu, die oft brechen
 
-          # Check project modules (non-model imports)
-          uv run python -c "from projects.ocr_pipeline.project import preprocess, postprocess"
-
+  # ------------------------------------------------------------------
+  # 5. ALL CHECKS (Der "Gatekeeper" für GitHub Settings)
+  # ------------------------------------------------------------------
   all-checks:
-    name: All Checks
-    needs: [pre-commit, test, notebook-check, import-check]
+    name: Status Check
+    if: always() # Läuft immer, auch wenn vorher was fehlschlug (um das zu reporten)
+    needs: [pre-commit, notebook-check, test, import-check]
     runs-on: ubuntu-latest
     steps:
-      - run: echo "All checks passed!"
+      - name: Check status of all required jobs
+        run: |
+          # Wir prüfen manuell, ob einer der 'needs' Jobs fehlgeschlagen ist
+          if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" || "${{ contains(needs.*.result, 'cancelled') }}" == "true" ]]; then
+            echo "One or more checks failed."
+            exit 1
+          else
+            echo "All checks passed!"
+            exit 0

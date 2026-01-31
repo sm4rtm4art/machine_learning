@@ -1,4 +1,7 @@
-.PHONY: help install install-dev lint format typecheck test test-cov clean mlflow docs
+.PHONY: help setup-uv check-uv install install-dev install-all quickstart lint format typecheck test test-cov test-smoke clean mlflow mlflow-stop mlflow-logs evidently evidently-stop run pre-commit pre-commit-install docs
+
+# Detect OS for platform-specific commands
+UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
 
 # Default target
 help:
@@ -6,6 +9,7 @@ help:
 	@echo "================================="
 	@echo ""
 	@echo "Setup:"
+	@echo "  make setup-uv      Install uv package manager (auto-detects OS)"
 	@echo "  make install       Install production dependencies"
 	@echo "  make install-dev   Install all dependencies including dev tools"
 	@echo "  make install-all   Install all optional dependencies"
@@ -32,14 +36,53 @@ help:
 # Setup
 # =============================================================================
 
-install:
+# Install uv package manager (auto-detects OS: Linux, macOS, Windows)
+setup-uv:
+	@echo "Detecting OS: $(UNAME_S)"
+ifeq ($(UNAME_S),Linux)
+	@echo "Installing uv for Linux..."
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+	@echo ""
+	@echo "Add to your shell profile: export PATH=\"\$$HOME/.local/bin:\$$PATH\""
+else ifeq ($(UNAME_S),Darwin)
+	@echo "Installing uv for macOS..."
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+	@echo ""
+	@echo "Add to your shell profile: export PATH=\"\$$HOME/.local/bin:\$$PATH\""
+else
+	@echo "For Windows, run in PowerShell:"
+	@echo "  irm https://astral.sh/uv/install.ps1 | iex"
+	@echo ""
+	@echo "Or install via pipx/pip: pipx install uv"
+endif
+	@echo ""
+	@echo "Then restart your terminal and run: make install-dev"
+
+# Check if uv is installed, provide helpful message if not
+check-uv:
+	@command -v uv >/dev/null 2>&1 || { \
+		echo "Error: uv is not installed or not in PATH"; \
+		echo "Run 'make setup-uv' to install it"; \
+		exit 1; \
+	}
+
+install: check-uv
 	uv sync
 
-install-dev:
+install-dev: check-uv
 	uv sync --all-extras
 
-install-all:
+install-all: check-uv
 	uv sync --all-extras
+
+# Quick start for new collaborators
+quickstart: setup-uv
+	@echo ""
+	@echo "=== Next Steps ==="
+	@echo "1. Restart your terminal (or run: source ~/.bashrc / source ~/.zshrc)"
+	@echo "2. Run: make install-dev"
+	@echo "3. Run: make pre-commit-install"
+	@echo "4. You're ready! Try: make test"
 
 # =============================================================================
 # Code Quality

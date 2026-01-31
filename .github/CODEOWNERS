@@ -1,0 +1,47 @@
+# CODEOWNERS - Define who reviews what
+
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+#
+
+# When a PR modifies files matching a pattern, the listed owners are
+
+# automatically requested for review.
+
+#
+
+# Order matters: later patterns override earlier ones.
+
+# =============================================================================
+
+# Default: Repository owner reviews everything
+
+# =============================================================================
+
+- @sm4rtm4art
+
+# =============================================================================
+
+# Project-Specific Ownership
+
+# =============================================================================
+
+# Vision SSL Transfer - Collaborative project
+
+# Replace COLLABORATOR_USERNAME with your friend's GitHub username
+
+/projects/vision_ssl_transfer/ @sm4rtm4art @smilster
+
+# =============================================================================
+
+# Shared Infrastructure (owner approval required)
+
+# =============================================================================
+
+# Changes to CI, configs, or shared code need owner review
+
+/.github/ @sm4rtm4art
+/src/ @sm4rtm4art
+/Makefile @sm4rtm4art
+/pyproject.toml @sm4rtm4art
+/.pre-commit-config.yaml @sm4rtm4art
