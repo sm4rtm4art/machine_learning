@@ -5,7 +5,7 @@ services:
     image: evidentlyai/evidently-service:latest
     container_name: ml-portfolio-evidently
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     volumes:
       - evidently-data:/app/data
       - ./workspaces:/app/workspaces
