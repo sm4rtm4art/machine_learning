@@ -1,47 +1,42 @@
 #!/usr/bin/env python
 """
-    Tool for manual labeling
-    - loads images from a given path
-    - depicts images one-by-one and waits for keyboard input
-    - feature present? 1=true, 0=false
-    - no storing yet
+Tool for manual labeling
+- loads images from a given path
+- depicts images one-by-one and waits for keyboard input
+- feature present? 1=true, 0=false
+- no storing yet
 """
 
+import random
 from pathlib import Path
 
-import typer
-from ml_portfolio.common.paths import get_project_paths
-
-import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
+import typer
 
-import random
+from ml_portfolio.common.paths import get_project_paths
 
 app = typer.Typer()
 
 PROJECT_NAME = "vision_ssl_transfer"
 
 
-
-
-
-"""  
+"""
     @param: input_dir: str, default is set to Oxford Pets default download path
     @param: shuffle: bool, default is true, shuffle images or not
     !! use typer.Options in next version
 """
+
+
 @app.command()
 def main(
-    input_dir = get_project_paths(PROJECT_NAME).data_dir / "images",
-    shuffle = True
+    input_dir=get_project_paths(PROJECT_NAME).data_dir / "images", shuffle=True
 ) -> dict[str, bool]:
-
     input_dir = Path(input_dir)
     if not input_dir.exists():
         raise FileNotFoundError(f"Directory does not exist: {input_dir}")
 
     image_paths = sorted(input_dir.glob("*.jpg"))
-
 
     if not image_paths:
         raise FileNotFoundError(f"No .jpg files found in {input_dir}")
@@ -64,7 +59,7 @@ def main(
     fig, ax = plt.subplots()
     image_obj = ax.imshow(image)
     ax.axis("off")
-    set_title(ax,current_idx,len(image_paths))
+    set_title(ax, current_idx, len(image_paths))
 
     def on_key(event):
         nonlocal current_idx
@@ -82,7 +77,7 @@ def main(
             # Update image in the same axes
             new_image = mpimg.imread(image_paths[current_idx])
             image_obj.set_data(new_image)
-            set_title(ax,current_idx,len(image_paths))
+            set_title(ax, current_idx, len(image_paths))
             fig.canvas.draw()  # refresh figure
 
         elif key == "q":
@@ -98,7 +93,5 @@ def main(
     return labels
 
 
-
 if __name__ == "__main__":
     app()
-
