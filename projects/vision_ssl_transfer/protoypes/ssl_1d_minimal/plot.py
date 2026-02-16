@@ -1,8 +1,8 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 
-def plot_examples(samples,n_examples=20,title='examples',block=True):
+def plot_examples(samples, n_examples=20, title="examples", block=True):
     plot_idx = np.random.randint(0, len(samples), n_examples)
     plt.figure()
     plt.plot(samples[plot_idx].T)
@@ -11,12 +11,13 @@ def plot_examples(samples,n_examples=20,title='examples',block=True):
     plt.pause(0.1)
 
 
-def plot_clusters(tsne_embedding_2d, cluster_labels,block=True):
+def plot_clusters(tsne_embedding_2d, cluster_labels, block=True):
     plt.figure()
     plt.scatter(tsne_embedding_2d[:, 0], tsne_embedding_2d[:, 1], c=cluster_labels)
     plt.title("SSL Embeddings Clustering")
     plt.show(block=block)
     plt.pause(0.1)
+
 
 # def plot_cluster_examples(samples,cluster_labels,n_examples_per_cluster=5,block=True):
 #     unique_clusters = np.unique(cluster_labels)
@@ -32,8 +33,9 @@ def plot_cluster_examples(samples, cluster_labels, n_examples_per_cluster=5, blo
     n_clusters = len(unique_clusters)
 
     # 1. Setup the grid: Rows = Clusters, Cols = Examples
-    fig, axes = plt.subplots(n_clusters, n_examples_per_cluster,
-                             figsize=(n_examples_per_cluster * 2, n_clusters * 2))
+    fig, axes = plt.subplots(
+        n_clusters, n_examples_per_cluster, figsize=(n_examples_per_cluster * 2, n_clusters * 2)
+    )
 
     # Handle the case where there is only 1 cluster (axes wouldn't be 2D)
     if n_clusters == 1:
