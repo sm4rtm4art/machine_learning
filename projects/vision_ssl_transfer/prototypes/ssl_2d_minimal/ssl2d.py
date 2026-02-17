@@ -4,10 +4,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from scipy.ndimage import rotate
-from sklearn.manifold import TSNE
 from sklearn.cluster import KMeans
+from sklearn.manifold import TSNE
 
 
 class Model2d(nn.Module):
@@ -16,32 +15,28 @@ class Model2d(nn.Module):
 
         self.fft = self.FFT()
         self.net = nn.Sequential(
-            nn.Linear(height * width, 128),
-            nn.ReLU(),
-            nn.Linear(128, embedding_dim)
+            nn.Linear(height * width, 128), nn.ReLU(), nn.Linear(128, embedding_dim)
         )
 
     def forward(self, x):
         x = self.fft(x)
-        x = torch.flatten(x,start_dim=1)
+        x = torch.flatten(x, start_dim=1)
         z = self.net(x)
         return F.normalize(z, dim=1)  # important for contrastive loss
 
     # fft module for model
     class FFT(nn.Module):
         def forward(self, x):
-            return torch.abs(torch.fft.fft2(x, dim=(-2,-1)))
-
+            return torch.abs(torch.fft.fft2(x, dim=(-2, -1)))
 
 
 def augment(data_original):
-
     data_augmented = data_original.copy()
 
     height, width = data_augmented.shape
 
     # rotate
-    data_augmented = rotate(data_augmented,360 * random.random(),reshape=False)
+    data_augmented = rotate(data_augmented, 360 * random.random(), reshape=False)
 
     # Add Gaussian noise
     data_augmented += 0.02 * np.random.randn(height, width)
@@ -54,7 +49,7 @@ def augment(data_original):
     shift_x = np.random.randint(-5, 6)
     data_augmented = np.roll(data_augmented, shift_x, axis=1)
 
-    #️ Vertical shift (height axis)
+    # ️ Vertical shift (height axis)
     shift_y = np.random.randint(-5, 6)
     data_augmented = np.roll(data_augmented, shift_y, axis=0)
 
@@ -66,17 +61,14 @@ def augment(data_original):
     data_augmented += bias
 
     return data_augmented.astype(np.float32)
+
+
 #
 #
 
 
 #
-def contrastive_loss(
-        samples_embedded_1,
-        samples_embedded_2,
-        temperature
-):
-
+def contrastive_loss(samples_embedded_1, samples_embedded_2, temperature):
     """
     compare similarities of augmented already embedded data, and compute loss
     """
@@ -89,20 +81,15 @@ def contrastive_loss(
     identity_matrix = torch.eye(2 * batch_size, dtype=torch.bool).to(samples_embedded.device)
     similarity.masked_fill_(identity_matrix, -9e15)
 
-    positive_similarities = torch.cat([torch.diag(similarity, batch_size),
-                                       torch.diag(similarity, -batch_size)])
+    positive_similarities = torch.cat(
+        [torch.diag(similarity, batch_size), torch.diag(similarity, -batch_size)]
+    )
     loss = -positive_similarities + torch.logsumexp(similarity, dim=1)
     return loss.mean()
 
+
 #
-def train(
-        model,
-        training_data,
-        batch_size=128,
-        learning_rate=1e-3,
-        temperature=0.5,
-        episodes = 2000
-):
+def train(model, training_data, batch_size=128, learning_rate=1e-3, temperature=0.5, episodes=2000):
     sample_number = training_data.shape[0]
     batch_size = min(batch_size, sample_number)
 
@@ -130,16 +117,17 @@ def train(
 
         if step % 5 == 0:
             print(f"Step {step}, Loss {loss.item():.4f}")
+
+
 #
 
-def tsne_embed_2d(model, eval_samples):
 
+def tsne_embed_2d(model, eval_samples):
     eval_samples = torch.tensor(eval_samples.astype(np.float32))
 
     # model.eval()
     with torch.no_grad():
         samples_embedded = model(eval_samples).numpy()
-
 
     tsne = TSNE(n_components=2, perplexity=30)
     tsne_embedding_2d = tsne.fit_transform(samples_embedded)
@@ -148,9 +136,7 @@ def tsne_embed_2d(model, eval_samples):
 
 
 def get_cluster_labels(tsne_embedding_2d, n_clusters):
-
     kmeans = KMeans(n_clusters=n_clusters, random_state=0)
     cluster_labels = kmeans.fit_predict(tsne_embedding_2d)
 
     return cluster_labels
-

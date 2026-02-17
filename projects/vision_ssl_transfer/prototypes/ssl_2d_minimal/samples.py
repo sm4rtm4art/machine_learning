@@ -1,39 +1,40 @@
 import math
 import random
-from pyexpat import features
+
+import numpy as np
 from PIL import Image
 from scipy.ndimage import rotate
-import numpy as np
-
-
-
 
 """
 Generate randomized 1D samples with exaclty on distinct feature
 """
-def generate(n_features,sample_length = 256, sample_number = 1024,noise_strength=0.05):
+
+
+def generate(n_features, sample_length=256, sample_number=1024, noise_strength=0.05):
     x, y = generate_positions(sample_length)
 
-    samples = np.zeros([sample_number,sample_length,sample_length])
+    samples = np.zeros([sample_number, sample_length, sample_length])
 
     for i in range(sample_number):
-        samples[i] = generate_random_feature(x,y,n_features,noise_strength)
+        samples[i] = generate_random_feature(x, y, n_features, noise_strength)
     return samples
+
 
 def generate_positions(sample_length):
     x = np.linspace(0, 1, sample_length)
-    return np.meshgrid(x,x)
+    return np.meshgrid(x, x)
 
 
+def gaussian(x, y, peak_position, peak_width):
+    return np.exp(
+        -((x - peak_position[0]) ** 2 + (y - peak_position[1]) ** 2) / (2 * peak_width**2)
+    )
 
 
-def gaussian(x,y, peak_position, peak_width):
-    return np.exp(- ((x - peak_position[0]) ** 2 + (y - peak_position[1]) ** 2) / (2 * peak_width ** 2))
-
-def sin(x,y, frequency,phase):
-    return np.sin(2 * math.pi * frequency[0] * x + phase[0]) + np.sin(2 * math.pi * frequency[1] * y + phase[1])
-
-
+def sin(x, y, frequency, phase):
+    return np.sin(2 * math.pi * frequency[0] * x + phase[0]) + np.sin(
+        2 * math.pi * frequency[1] * y + phase[1]
+    )
 
 
 #
@@ -41,30 +42,27 @@ def sin(x,y, frequency,phase):
 # features are broad gaussian peak, sharp gaussian peak, oscillations, and no feature (pure noise)
 # """
 #
-def generate_random_feature(x,y, n_features,noise_strength=0.05):
+def generate_random_feature(x, y, n_features, noise_strength=0.05):
     sample = np.zeros_like(x)
-    feature_id = random.randint(0, n_features-1)
+    feature_id = random.randint(0, n_features - 1)
     match feature_id:
-
         # Random Gaussian peak
         case 0:
             peak_position = 0.25 + 0.5 * np.random.random(2)
             peak_width = 0.15
-            sample += gaussian(x,y, peak_position, peak_width)
+            sample += gaussian(x, y, peak_position, peak_width)
 
         # Random sharp Gaussian peak
         case 1:
             peak_position = 0.25 + 0.5 * np.random.random(2)
             peak_width = 0.05
-            sample += gaussian(x,y, peak_position, peak_width)
-
-
+            sample += gaussian(x, y, peak_position, peak_width)
 
         # sinus
         case 2:
             phase = 2 * math.pi * np.random.random(2)
             frequency = 1 + 10 * np.random.random(2)
-            sample += sin(x,y, frequency, phase)
+            sample += sin(x, y, frequency, phase)
 
         # triangle
         case 3:
@@ -72,7 +70,7 @@ def generate_random_feature(x,y, n_features,noise_strength=0.05):
             base = 0.2 + 0.5 * random.random()
             height = 0.2 + 0.5 * random.random()
             width = 0.05 + 0.05 * random.random()
-            sample = triangle(x,y,center,base,height)
+            sample = triangle(x, y, center, base, height)
 
         #  elipse
         case 4:
@@ -80,26 +78,25 @@ def generate_random_feature(x,y, n_features,noise_strength=0.05):
             radius = 0.2 + 0.2 * random.random()
             width = 0.01 + 0.01 * random.random()
             xa = 1
-            ya = 1.5;
-            sample = elipse(x,y,center,radius,xa,ya,width)
+            ya = 1.5
+            sample = elipse(x, y, center, radius, xa, ya, width)
 
         case 5:
             center = 0.25 + 0.25 * np.random.random(2)
             length = 0.2 + 0.5 * random.random()
             height = 0.2 + 0.5 * random.random()
             width = 0.1 + 0.2 * random.random()
-            sample = rectangle(x,y,center,length,height,width)
+            sample = rectangle(x, y, center, length, height, width)
 
         case 6:
             sample_length = x.shape[0]
-            target_size = (random.randint(20,128),random.randint(20,128))
-            position = (0.25 + 0.5 * random.random(),0.25 + 0.5 * random.random())
-            sample = turtle(sample_length,target_size,position)
-
+            target_size = (random.randint(20, 128), random.randint(20, 128))
+            position = (0.25 + 0.5 * random.random(), 0.25 + 0.5 * random.random())
+            sample = turtle(sample_length, target_size, position)
 
     #  rotate
-    angle = 360 * random.random();
-    sample = rotate(sample, angle,reshape=False)
+    angle = 360 * random.random()
+    sample = rotate(sample, angle, reshape=False)
 
     # Add noise
     sample += noise_strength * np.random.randn(*x.shape)
@@ -107,19 +104,16 @@ def generate_random_feature(x,y, n_features,noise_strength=0.05):
     return sample.astype(np.float32)
 
 
-
-
-def circle(x,y,center,radius,width=0.05):
+def circle(x, y, center, radius, width=0.05):
     sample = width - np.abs(np.sqrt((x - center[0]) ** 2 + (y - center[1]) ** 2) - radius)
-    return np.heaviside(sample,0)
-
-def elipse(x,y,center,radius,xa,ya,width=0.05):
-    sample = width - np.abs(np.sqrt(((x - center[0])/xa) ** 2 + ((y - center[1])/ya) ** 2) - radius)
-    return np.heaviside(sample,0)
+    return np.heaviside(sample, 0)
 
 
-
-
+def elipse(x, y, center, radius, xa, ya, width=0.05):
+    sample = width - np.abs(
+        np.sqrt(((x - center[0]) / xa) ** 2 + ((y - center[1]) / ya) ** 2) - radius
+    )
+    return np.heaviside(sample, 0)
 
 
 def triangle_filled(x, y, center, base, height):
@@ -155,7 +149,6 @@ def triangle(x, y, center, base, height, width=0.05):
 
 
 def rectangle_filled(x, y, center, length, height):
-
     cx, cy = center
 
     # 1. Horizontal bounds: x must be between (cx - L/2) and (cx + L/2)
@@ -170,17 +163,15 @@ def rectangle_filled(x, y, center, length, height):
 
     return sample
 
-def rectangle(x,y,center,length,height,width=0.05):
-    sample = rectangle_filled(x,y,center,length,height)
-    sample -= rectangle_filled(x,y,center,length-width/2,height-width/2)
+
+def rectangle(x, y, center, length, height, width=0.05):
+    sample = rectangle_filled(x, y, center, length, height)
+    sample -= rectangle_filled(x, y, center, length - width / 2, height - width / 2)
     return sample
 
 
-
 def turtle(sample_length, target_size, position=(0, 0), threshold=100):
-
-
-    img = Image.open('turtle.png').convert('L')
+    img = Image.open("turtle.png").convert("L")
 
     # 2. Squeeze to given size
     img = img.resize(target_size, Image.Resampling.LANCZOS)
@@ -201,6 +192,6 @@ def turtle(sample_length, target_size, position=(0, 0), threshold=100):
     x_end = min(x + w, sample_length)
 
     # Slice the binary image to fit the available space if it goes off-edge
-    sample[y:y_end, x:x_end] = binary_img[:y_end - y, :x_end - x]
+    sample[y:y_end, x:x_end] = binary_img[: y_end - y, : x_end - x]
 
     return sample
