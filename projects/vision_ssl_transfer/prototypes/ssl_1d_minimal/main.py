@@ -1,5 +1,5 @@
 """
-minimal SSL testing with 1D functions:
+minimal ImageSSL testing with 1D functions:
 data generation,
 training,
 clustering and 2D-embedding

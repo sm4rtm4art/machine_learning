@@ -28,7 +28,7 @@ def plot_examples(samples, block=True):
 def plot_clusters(tsne_embedding_2d, cluster_labels, block=True):
     plt.figure()
     plt.scatter(tsne_embedding_2d[:, 0], tsne_embedding_2d[:, 1], c=cluster_labels)
-    plt.title("SSL Embeddings Clustering")
+    plt.title("ImageSSL Embeddings Clustering")
     plt.show(block=block)
     plt.pause(0.1)
 

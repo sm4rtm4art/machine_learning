@@ -1,15 +1,18 @@
 import matplotlib.pyplot as plt
+import random
 import numpy as np
 
-
-def plot_examples(samples, n_examples=20, title="examples", block=True):
-    plot_idx = np.random.randint(0, len(samples), n_examples)
-    plt.figure()
-    plt.plot(samples[plot_idx].T)
-    plt.title(title)
-    plt.show(block=block)
-    plt.pause(0.1)
-
+def plot_examples(data,cols=6,rows=5):
+    figure = plt.figure(figsize=(8 * cols, 6 * rows))
+    for i in range(1, cols * rows + 1):
+        sample_idx = random.randint(0,len(data))
+        img, label = data[sample_idx]
+        img = img.permute(1,2,0)
+        figure.add_subplot(rows, cols, i)
+        plt.axis("off")
+        plt.imshow(img)
+    plt.tight_layout()
+    plt.show()
 
 def plot_clusters(tsne_embedding_2d, cluster_labels, block=True):
     plt.figure()
@@ -18,14 +21,6 @@ def plot_clusters(tsne_embedding_2d, cluster_labels, block=True):
     plt.show(block=block)
     plt.pause(0.1)
 
-
-# def plot_cluster_examples(samples,cluster_labels,n_examples_per_cluster=5,block=True):
-#     unique_clusters = np.unique(cluster_labels)
-#
-#     for cluster_id in unique_clusters:
-#         indices = np.where(cluster_labels == cluster_id)[0]
-#         title = f"Cluster {cluster_id} Examples"
-#         plot_examples(samples[indices], n_examples_per_cluster, title, block=block)
 
 
 def plot_cluster_examples(samples, cluster_labels, n_examples_per_cluster=5, block=True):
@@ -51,7 +46,7 @@ def plot_cluster_examples(samples, cluster_labels, n_examples_per_cluster=5, blo
             ax = axes[i, j]
             if j < len(selected_indices):
                 # Plotting logic (assuming 1D signal data)
-                ax.plot(samples[selected_indices[j]])
+                ax.imshow(samples[selected_indices[j]])
 
                 # Only put titles on the first column to save space
                 if j == 0:
