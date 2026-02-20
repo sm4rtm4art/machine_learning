@@ -32,7 +32,7 @@ Principles I try to follow:
 | Project | Status | Key Technologies | Planned Interconnections |
 |---------|--------|------------------|--------------------------|
 | [OCR Pipeline](projects/ocr_pipeline/) | 🚧 Active | Tesseract, TrOCR, SVM routing | *Future*: LLM post-processing |
-| [Tabular Boosting Suite](projects/tabular_boosting/) | 📋 Planned | LightGBM, XGBoost, CatBoost, SHAP | → AutoML |
+| [Tabular Boosting Suite](projects/tabular_boosting/) | 📋 Planned | LightGBM, XGBoost, CatBoost, SHAP, [TabPFN](https://github.com/PriorLabs/TabPFN) | → AutoML |
 | [Time Series Forecasting](projects/timeseries_forecasting_covariates/) | 📋 Planned | Darts, NeuralProphet, conformal | Standalone |
 
 ### Advanced Architectures
