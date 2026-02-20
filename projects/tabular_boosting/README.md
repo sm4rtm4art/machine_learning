@@ -3,6 +3,7 @@
 **Status**: 📋 Planned
 
 A comprehensive benchmark comparing gradient boosting frameworks (LightGBM, XGBoost, CatBoost) with rigorous evaluation and calibration analysis.
+Futher the complementary tabular transfromer models are applied like [TabPFN](https://github.com/PriorLabs/TabPFN)
 
 ## Planned Features
 
@@ -13,7 +14,8 @@ A comprehensive benchmark comparing gradient boosting frameworks (LightGBM, XGBo
 - SHAP explanations
 - Slice-based evaluation (missingness, category frequency, outliers)
 - Inference latency benchmarks
-
+- TabPFN as comparisson
+- 
 ## Datasets
 
 - Classification: Credit default prediction or similar
