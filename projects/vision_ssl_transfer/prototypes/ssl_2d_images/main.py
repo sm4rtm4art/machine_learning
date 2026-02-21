@@ -7,23 +7,23 @@ from ml_portfolio.common.paths import get_project_paths
 
 PROJECT_NAME = "vision_ssl_transfer"
 
+#  script switches
+regenerate_images = True
+plot_training_set_examples = False
+plot_augmented_examples = False
+train_model = True
+plot_testing_set_clusters = True
+
+#  data generation or loading
 img_train_dir_base = "images_train"
 img_test_dir_base = "images_test"
 
 n_features = 8
-
-#  script switches
-regenerate_images = True
-plot_training_set_examples = False
-plot_augmentated_examples = False
-train_model = True
-plot_testing_set_clusters = True
-
 if regenerate_images:
-    image_number = 1024 *2
-    image_width = 256
+    image_number = 1024
+    image_width = 128
 
-    img_train_dir, img_test_dir, annotations_file_name \
+    img_train_dir, img_test_dir, annotations_file \
         = generate_and_save_images(
         img_train_dir_base=img_train_dir_base,
         img_test_dir_base=img_test_dir_base,
@@ -35,44 +35,38 @@ else:
     output_dir = get_project_paths(PROJECT_NAME).data_dir / "prototypes/ssl_2d_images"
     img_train_dir = output_dir / img_train_dir_base
     img_test_dir = output_dir / img_test_dir_base
-    annotations_file_name = "annotations.txt"
+    annotations_file = "annotations.txt"
 
-ssl = ImageSSL()
-ssl.import_training_images(
-    img_train_dir,
-    img_train_dir / annotations_file_name
-)
-ssl.import_testing_images(
-    img_test_dir,
-    img_test_dir / annotations_file_name
+ssl = ImageSSL(
+    img_train_dir=img_train_dir,
+    img_test_dir=img_test_dir,
+    annotations_file=annotations_file,
+    checkpoint_file="checkpoint.torch.tar",
+    write_out_checkpoint=True,
+    resume_from_checkpoint=True
 )
 
 if plot_training_set_examples:
     plot_examples(ssl.training_set)
 
-
-
-
 # test augmentation
-if plot_augmentated_examples:
+if plot_augmented_examples:
     from data_handler import AugmentedDataset
-    augmented_set  = AugmentedDataset(ssl.training_set,ssl.augment)
+
+    augmented_set = AugmentedDataset(ssl.training_set, ssl.augment)
     plot_examples(augmented_set)
 
 if train_model:
     ssl.set_model(
-        convolution_channels=[8,16,32,64],
-        hidden_dims=[128],
+        convolution_channels=[],
+        hidden_dims=[64, 32],
         embedding_dim=n_features,
-        use_fft=False
+        use_fft=True
     )
 
-    ssl.train(epochs=500, batch_size=512, learning_rate=1e-3)
-
-
-
-
-    ssl.train(epochs=500, batch_size=256, learning_rate=1e-3)
+    # print(ssl.model)
+    # exit()
+    ssl.train(epochs=10, batch_size=1024, learning_rate=1e-3, temperature=0.25)
 
 if plot_testing_set_clusters:
     tsne_embedding_2d, test_images = ssl.tsne_embed_2d()

@@ -48,7 +48,7 @@ def sin(x, y, frequency, phase):
 # features are broad gaussian peak, sharp gaussian peak, oscillations, and no feature (pure noise)
 # """
 #
-def generate_random_feature(x, y, n_features, noise_strength=0.05):
+def generate_random_feature(x, y, n_features, noise_strength=0.01):
     sample = np.zeros_like(x)
     feature_id = random.randint(0, n_features - 1)
     match feature_id:
@@ -232,14 +232,15 @@ def generate_and_save_images(
     shutil.rmtree(img_test_dir)
     img_test_dir.mkdir()
 
-    annotations_file_name = "annotations.txt"
+    annotations_file = "annotations.txt"
 
     for image_dir in [img_train_dir, img_test_dir]:
         samples = generate(n_features, sample_length, sample_number)
-        annotations_file_path = image_dir / annotations_file_name
+        annotations_file_path = image_dir / annotations_file
         annotations_string = "file name, label id\n"
         #
         for i in range(sample_number):
+            # print(str(i))
             file_name = str(i) + ".jpg"
             file_path = image_dir / file_name
             annotations_string += file_name + ', 0'
@@ -259,4 +260,4 @@ def generate_and_save_images(
         with open(annotations_file_path, "w") as file:
             file.write(annotations_string)
 
-    return img_train_dir, img_test_dir, annotations_file_name
+    return img_train_dir, img_test_dir, annotations_file

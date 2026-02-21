@@ -5,9 +5,10 @@ import os
 from torchvision.transforms import v2
 
 
+
 class ImageDataset(Dataset):
     def __init__(self, img_dir, annotations_file):
-        self.img_labels = pd.read_csv(annotations_file, header=0)
+        self.img_labels = pd.read_csv(annotations_file)
         self.img_dir = img_dir
 
         # assuming all images have same resolution
