@@ -1,4 +1,4 @@
-.PHONY: help setup-uv check-uv install install-dev install-all quickstart lint format typecheck test test-cov test-smoke clean mlflow mlflow-stop mlflow-logs evidently evidently-stop run pre-commit pre-commit-install docs
+.PHONY: help setup-uv check-uv install install-dev install-all quickstart lint format typecheck test test-cov test-smoke clean mlflow mlflow-stop mlflow-logs  mlflow-pg mlflow-pg-stop mlflow-pg-logs evidently evidently-stop run pre-commit pre-commit-install docs
 
 # Detect OS for platform-specific commands
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
@@ -25,8 +25,13 @@ help:
 	@echo "  make test-cov      Run tests with coverage"
 	@echo ""
 	@echo "Infrastructure:"
-	@echo "  make mlflow        Start MLflow server (Docker)"
-	@echo "  make mlflow-stop   Stop MLflow server"
+	@echo "  make mlflow            Start MLflow server (Docker)"
+	@echo "  make mlflow-stop       Stop MLflow server"
+	@echo "  make mlflow-logs       Show MLflow logs"
+	@echo ""
+	@echo "  make mlflow-pg         Start MLflow server with PostgreSQL (Docker)"
+	@echo "  make mlflow-pg-stop    Stop MLflow (PostgreSQL) server"
+	@echo "  make mlflow-pg-logs    Show MLflow (PostgreSQL) logs "
 	@echo ""
 	@echo "Utilities:"
 	@echo "  make clean         Remove build artifacts and caches"
@@ -127,6 +132,16 @@ mlflow-stop:
 
 mlflow-logs:
 	cd infra/mlflow && docker compose logs -f
+
+mlflow-pg:
+	cd infra/mlflow_pg && docker compose up -d
+	@echo "MLflow UI available at http://localhost:5000"
+
+mlflow-pg-stop:
+	cd infra/mlflow_pg && docker compose down
+
+mlflow-pg-logs:
+	cd infra/mlflow_pg && docker compose logs -f
 
 evidently:
 	cd infra/monitoring/evidently && docker compose up -d

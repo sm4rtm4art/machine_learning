@@ -109,6 +109,10 @@ artifacts/*
 mlruns/
 mlartifacts/
 
+# MLflow wisth postgresql and minio
+minio-data
+pgdata
+
 # Weights & Biases
 wandb/
 

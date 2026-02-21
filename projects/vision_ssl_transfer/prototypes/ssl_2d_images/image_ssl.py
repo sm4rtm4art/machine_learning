@@ -1,18 +1,22 @@
-from time import sleep
+from data_handler import ImageDataset
 
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-import numpy.typing as npt
 import torch
+from torch.utils.data import DataLoader
+from torchvision.transforms import v2
+
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
-from torch.utils.data import DataLoader
-from torch.utils.data import Dataset
-from torchvision.transforms import v2
+
 import math
 
-from data_handler import ImageDataset
+import mlflow
+import mlflow.pytorch
+
+#
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
+mlflow.set_experiment("vision_ssl_transfer/prototypes/ssl_2d_images")
 
 
 class ImageSSL:
@@ -31,24 +35,38 @@ class ImageSSL:
         self.testing_set = None
         self.image_loader = None
 
-        # transformation
-        self.augment = v2.Compose([
-            v2.RandomRotation(360),
-            v2.GaussianNoise(),
-            v2.RandomVerticalFlip(),
-            v2.ElasticTransform()
-        ])
+        self.image_shape = None
 
-        # training stuff
-        self.batch_size = 32
+        # metrics to update
+        self.loss = None
+
+        # transformation
+        self.augment = None
 
     def import_training_images(self, img_dir, annotations_file):
         dataset = ImageDataset(img_dir, annotations_file)
         self.training_set = dataset
+        self.image_shape = dataset.image_shape
+        self.set_augmentation()
 
     def import_testing_images(self, img_dir, annotations_file):
         dataset = ImageDataset(img_dir, annotations_file)
         self.testing_set = dataset
+
+    def set_augmentation(self):
+        normalization_mean = []
+        normalization_std = []
+
+        for channel in range(self.image_shape[0]):
+            normalization_mean.append(0.5)
+            normalization_std.append(0.5)
+
+        self.augment = v2.Compose([
+            v2.RandomRotation(degrees=180),
+            v2.RandAugment(),
+            v2.GaussianNoise(mean=0.0, sigma=0.05),
+            v2.Normalize(normalization_mean, normalization_std)
+        ])
 
     def set_model(
             self,
@@ -69,8 +87,9 @@ class ImageSSL:
             self,
             batch_size=64,
             learning_rate=1e-3,
-            temperature=0.5,
+            temperature=0.1,
             epochs=30):
+
         optimizer = torch.optim.Adam(self.model.parameters(), lr=learning_rate)
         image_loader = DataLoader(
             self.training_set,
@@ -78,37 +97,51 @@ class ImageSSL:
             shuffle=True
         )
 
-        for step in range(epochs):
-            for images, _ in image_loader:
-                images_augmented_1 = self.augment(images)
-                images_augmented_2 = self.augment(images)
+        loss = None
+        with mlflow.start_run():
+            mlflow_params = {
+                "lr": learning_rate,
+                "epochs": epochs,
+            }
+            mlflow.log_params(mlflow_params)
+            mlflow.config.enable_system_metrics_logging()
+            mlflow.config.set_system_metrics_sampling_interval(1)
 
-                images_embedded_1 = self.model(images_augmented_1)
-                images_embedded_2 = self.model(images_augmented_2)
+            for epoch in range(epochs):
+                for images, _ in image_loader:
+                    images_augmented_1 = self.augment(images)
+                    images_augmented_2 = self.augment(images)
 
-                loss = self.contrastive_loss(images_embedded_1, images_embedded_2, temperature)
+                    images_embedded_1 = self.model(images_augmented_1)
+                    images_embedded_2 = self.model(images_augmented_2)
 
-                optimizer.zero_grad()
-                loss.backward()
-                optimizer.step()
+                    loss = self.contrastive_loss(images_embedded_1, images_embedded_2, temperature)
 
-            # if step % 5 == 0:
-            print(f"Step {step}, Loss {loss.item():.4f}")
+                    optimizer.zero_grad()
+                    loss.backward()
+                    optimizer.step()
 
-    #
+                self.loss = loss.item()
+                mlflow.log_metric("loss", self.loss, step=epoch)
+                print(f"Step {epoch}, Loss {self.loss:.3f}")
+
+            mlflow.pytorch.log_model(self.model, name="final_model")
 
     def contrastive_loss(self, images_embedded_1, images_embedded_2, temperature):
         """
         Compare similarities of augmented images already embedded by model, and compute loss.
         """
         batch_size = images_embedded_1.size(0)
-        samples_embedded = torch.cat([images_embedded_1, images_embedded_2], dim=0)
 
-        similarity = torch.matmul(samples_embedded, samples_embedded.T) / temperature
+        images_embedded = torch.cat([images_embedded_1, images_embedded_2], dim=0)
+
+        # calculate cosine similarity. Assuming image embeddings are already normalized by model ()
+        # already apply temperature here to avoid duplicate multiplication in loss calculation
+        similarity = torch.matmul(images_embedded, images_embedded.T) / temperature
 
         # remove  diagonal, i.e., set to very small nonzero value
-        identity_matrix = torch.eye(2 * batch_size, dtype=torch.bool).to(samples_embedded.device)
-        similarity.masked_fill_(identity_matrix, -9e15)
+        identity_matrix = torch.eye(2 * batch_size, dtype=torch.bool)
+        similarity.masked_fill_(identity_matrix, 9e-15)
 
         positive_similarities = torch.cat(
             [torch.diag(similarity, batch_size), torch.diag(similarity, -batch_size)]
@@ -120,7 +153,7 @@ class ImageSSL:
         print("start TSNE")
         loader = DataLoader(
             self.testing_set,
-            batch_size= 256,
+            batch_size=256,
             shuffle=True
         )
 
@@ -134,7 +167,7 @@ class ImageSSL:
 
         return tsne_embedding_2d, test_images
 
-    def get_cluster_labels(self,tsne_embedding_2d, n_clusters):
+    def get_cluster_labels(self, tsne_embedding_2d, n_clusters):
         kmeans = KMeans(n_clusters=n_clusters, random_state=0)
         cluster_labels = kmeans.fit_predict(tsne_embedding_2d)
 
@@ -170,6 +203,7 @@ class Model(nn.Module):
         super().__init__()
         self.input_channels = image_shape[0]
         self.convolution_channels = convolution_channels
+        self.linear_input_dim = None  # to be determined below
         self.hidden_dims = hidden_dims
         self.embedding_dim = embedding_dim
         self.use_fft = use_fft
@@ -188,6 +222,15 @@ class Model(nn.Module):
         probe_tensor = self.forward_convolution(probe_tensor)
         self.linear_input_dim = math.prod(probe_tensor.shape)
         self.build_linear()
+
+        self.model_properties = {
+            "input_channels": self.input_channels,
+            "convolution_channels": self.convolution_channels,
+            "linear_input_dim": self.linear_input_dim,
+            "hidden_dims": self.hidden_dims,
+            "embedding_dim": self.embedding_dim,
+            "use_fft": self.use_fft,
+        }
 
     # ##############
     #  network model building Methods
@@ -219,7 +262,6 @@ class Model(nn.Module):
         ))
 
         self.convolution_layers.append(activation)
-
 
         self.convolution_layers.append(nn.MaxPool2d(
             kernel_size=2,

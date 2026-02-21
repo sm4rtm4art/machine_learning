@@ -1,6 +1,8 @@
 import math
 import random
 
+import shutil
+
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
@@ -9,7 +11,7 @@ from scipy.ndimage import rotate
 from ml_portfolio.common.paths import get_project_paths
 
 """
-Generate randomized 2D samples with exaclty on distinct feature
+Generate randomized 2D samples with exactly on distinct feature
 """
 PROJECT_NAME = "vision_ssl_transfer"
 
@@ -201,7 +203,10 @@ def turtle(sample_length, target_size, position=(0, 0), threshold=100):
     return sample
 
 
+
 def generate_and_save_images(
+        img_train_dir_base ="images_train",
+        img_test_dir_base ="images_test",
         sample_number=128,
         sample_length=128,
         n_features=8,
@@ -210,25 +215,37 @@ def generate_and_save_images(
     output_dir.mkdir(exist_ok=True)
 
     output_dir = output_dir / "ssl_2d_images"
+
     output_dir.mkdir(exist_ok=True)
 
-    images_train_dir = output_dir / "images_train"
-    images_test_dir = output_dir / "images_test"
-    images_train_dir.mkdir(exist_ok=True)
-    images_test_dir.mkdir(exist_ok=True)
+    img_train_dir = output_dir / img_train_dir_base
+    img_test_dir = output_dir / img_test_dir_base
+
+    # create folder, update time stamp if exists
+    img_train_dir.mkdir(exist_ok=True)
+    # delete folder and content
+    shutil.rmtree(img_train_dir)
+    #  create empty folder
+    img_train_dir.mkdir()
+
+    img_test_dir.mkdir(exist_ok=True)
+    shutil.rmtree(img_test_dir)
+    img_test_dir.mkdir()
 
     annotations_file_name = "annotations.txt"
 
-    for dir in [images_train_dir, images_test_dir]:
+    for image_dir in [img_train_dir, img_test_dir]:
         samples = generate(n_features, sample_length, sample_number)
-        annotations_file_path = dir / annotations_file_name
-        annotations_string = ""
+        annotations_file_path = image_dir / annotations_file_name
+        annotations_string = "file name, label id\n"
         #
         for i in range(sample_number):
             file_name = str(i) + ".jpg"
-            file_path = dir / file_name
-            annotations_string += file_name + ', 0\n'
-
+            file_path = image_dir / file_name
+            annotations_string += file_name + ', 0'
+            #  add line break except for last line (although empty lines are typically ignored)
+            if i < sample_number - 1:
+                annotations_string += "\n"
             sample = samples[i]
 
             sample = sample - np.min(sample)
@@ -242,4 +259,4 @@ def generate_and_save_images(
         with open(annotations_file_path, "w") as file:
             file.write(annotations_string)
 
-    return images_train_dir, images_test_dir, annotations_file_name
+    return img_train_dir, img_test_dir, annotations_file_name

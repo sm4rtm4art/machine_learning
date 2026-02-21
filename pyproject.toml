@@ -27,7 +27,7 @@ dependencies = [
     "torchvision>=0.24.1",
     "transformers>=4.37.0",
     # Experiment tracking
-    "mlflow>=2.10.0",
+    "mlflow==3.10.0",
     # Configuration
     "pydantic>=2.5.0",
     "pydantic-settings>=2.1.0",
