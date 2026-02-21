@@ -15,7 +15,7 @@ Futher the complementary tabular transfromer models are applied like [TabPFN](ht
 - Slice-based evaluation (missingness, category frequency, outliers)
 - Inference latency benchmarks
 - TabPFN as comparisson
-- 
+
 ## Datasets
 
 - Classification: Credit default prediction or similar
