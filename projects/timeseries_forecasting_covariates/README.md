@@ -4,6 +4,18 @@
 
 Rigorous time series forecasting with exogenous covariates, proper backtesting, and probabilistic evaluation.
 
+## Used Libraries
+
+* Time Series
+ - [statsmodels](https://www.statsmodels.org/stable/index.html)
+ - [Darts](https://unit8co.github.io/darts/#)
+ - [sktime](https://www.sktime.net/en/stable/index.html)
+ - [Kats](https://facebookresearch.github.io/Kats/)
+* Annomalie detection
+  - [Python Outlier Detection](https://github.com/yzhao062/pyod)
+  - [TODS](https://github.com/datamllab/tods)
+
+
 ## Planned Features
 
 - Model types:
