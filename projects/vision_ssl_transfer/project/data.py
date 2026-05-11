@@ -436,15 +436,9 @@ def create_supervised_dataloaders(
     eval_transform = EvalAugmentation(config.image_size)
 
     if config.dataset == "oxford_pets":
-        train_dataset = OxfordPetsDataset(
-            data_dir, split="train", transform=eval_transform, labeled=True
-        )
-        val_dataset = OxfordPetsDataset(
-            data_dir, split="val", transform=eval_transform, labeled=True
-        )
-        test_dataset = OxfordPetsDataset(
-            data_dir, split="test", transform=eval_transform, labeled=True
-        )
+        train_dataset = OxfordPetsDataset(data_dir, split="train", transform=eval_transform, labeled=True)
+        val_dataset = OxfordPetsDataset(data_dir, split="val", transform=eval_transform, labeled=True)
+        test_dataset = OxfordPetsDataset(data_dir, split="test", transform=eval_transform, labeled=True)
     else:
         raise ValueError(f"Supervised evaluation not supported for: {config.dataset}")
 

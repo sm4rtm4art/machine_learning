@@ -4,10 +4,10 @@
 
 Rigorous time series forecasting with exogenous covariates, proper backtesting, and probabilistic evaluation.
 
-## Focus on different workflow 
+## Focus on different workflow
 
 Time series data are conditional, so the training and the crossvalidation must be conditional.
-Randomness destois the features we are interested in. 
+Randomness destois the features we are interested in.
 
 ## Libraries of interest
 
@@ -21,14 +21,14 @@ Here are some libraries for time series analysis.
 ### Annomalie detection
   - [Python Outlier Detection](https://github.com/yzhao062/pyod)
   - [TODS](https://github.com/datamllab/tods)
-### Time Series Foundation Models 
+### Time Series Foundation Models
   - [Chronos](https://github.com/amazon-science/chronos-forecasting)
   - [TimeFM](https://github.com/google-research/timesfm?tab=readme-ov-file)
   - [uni2ts](https://github.com/SalesforceAIResearch/uni2ts)
 
-### Base model 
+### Base model
 
-Arima, Exponential smoothing.  
+Arima, Exponential smoothing.
 
 
 ## Planned Features

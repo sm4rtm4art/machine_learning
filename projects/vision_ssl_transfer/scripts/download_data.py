@@ -114,8 +114,7 @@ def create_splits(data_dir: Path) -> None:
         f.write("\n".join(test_lines))
 
     console.print(
-        f"[green]Created splits: {len(train_lines)} train, "
-        f"{len(val_lines)} val, {len(test_lines)} test[/green]"
+        f"[green]Created splits: {len(train_lines)} train, {len(val_lines)} val, {len(test_lines)} test[/green]"
     )
 
 
@@ -152,9 +151,7 @@ def main(
     if dataset == "oxford_pets":
         # Check if already exists
         if (output_dir / "images").exists() and not force:
-            console.print(
-                "[yellow]Oxford Pets already downloaded. Use --force to re-download.[/yellow]"
-            )
+            console.print("[yellow]Oxford Pets already downloaded. Use --force to re-download.[/yellow]")
             return
 
         download_oxford_pets(output_dir, force)

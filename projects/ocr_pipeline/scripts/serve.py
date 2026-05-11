@@ -124,9 +124,7 @@ def main(
                     if outputs.scores:
                         scores = torch.stack(outputs.scores, dim=1)
                         probs = torch.softmax(scores, dim=-1)
-                        token_probs = probs.gather(
-                            2, outputs.sequences[:, 1:].unsqueeze(-1)
-                        ).squeeze(-1)
+                        token_probs = probs.gather(2, outputs.sequences[:, 1:].unsqueeze(-1)).squeeze(-1)
                         confidence = float(token_probs.mean())
                     else:
                         confidence = None

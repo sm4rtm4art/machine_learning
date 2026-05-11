@@ -384,9 +384,7 @@ def train_linear_probe(
     for epoch in range(config.epochs):
         logger.info(f"Epoch {epoch + 1}/{config.epochs}")
 
-        train_loss, train_acc = train_classifier_epoch(
-            model, train_dataloader, optimizer, criterion, device, config
-        )
+        train_loss, train_acc = train_classifier_epoch(model, train_dataloader, optimizer, criterion, device, config)
         train_losses.append(train_loss)
 
         val_loss, val_acc = validate_classifier(model, val_dataloader, criterion, device)

@@ -247,9 +247,7 @@ def linear_probe(
         )
 
         # Load pretrained backbone
-        artifact_path = mlflow.artifacts.download_artifacts(
-            run_id=ssl_run_id, artifact_path="best_ssl_model.pt"
-        )
+        artifact_path = mlflow.artifacts.download_artifacts(run_id=ssl_run_id, artifact_path="best_ssl_model.pt")
         backbone = SSLBackbone.from_pretrained(Path(artifact_path))
 
         # Create classifier

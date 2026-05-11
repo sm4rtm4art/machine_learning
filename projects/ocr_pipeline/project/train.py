@@ -223,18 +223,14 @@ def train(
         logger.info(f"Epoch {epoch + 1}/{config.epochs}")
 
         # Train
-        train_loss = train_epoch(
-            model, train_dataloader, optimizer, scheduler, device, config, scaler
-        )
+        train_loss = train_epoch(model, train_dataloader, optimizer, scheduler, device, config, scaler)
         train_losses.append(train_loss)
 
         # Validate
         val_loss, val_cer = validate(model, val_dataloader, processor, device, config)
         val_cers.append(val_cer)
 
-        logger.info(
-            f"Train loss: {train_loss:.4f}, Val loss: {val_loss:.4f}, Val CER: {val_cer:.4f}"
-        )
+        logger.info(f"Train loss: {train_loss:.4f}, Val loss: {val_loss:.4f}, Val CER: {val_cer:.4f}")
 
         # Early stopping check
         if val_cer < best_val_cer:

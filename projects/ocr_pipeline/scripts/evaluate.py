@@ -143,9 +143,7 @@ def main(
     # Run robustness evaluation if requested
     if robustness:
         logger.info("Running robustness evaluation")
-        result.robustness_results = evaluate_robustness(
-            model, processor, test_dataset, eval_config, device
-        )
+        result.robustness_results = evaluate_robustness(model, processor, test_dataset, eval_config, device)
 
     # Save results
     result_run_id = run_id or "local"

@@ -152,9 +152,7 @@ class SliceEvaluator:
                     "min": min(values),
                     "max": max(values),
                     "range": max(values) - min(values),
-                    "worst_slice": max(
-                        slice_results, key=lambda r: r.metrics[first_metric]
-                    ).slice_value,
+                    "worst_slice": max(slice_results, key=lambda r: r.metrics[first_metric]).slice_value,
                 }
 
         return summary
