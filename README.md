@@ -289,7 +289,3 @@ See [infra/monitoring/evidently/README.md](infra/monitoring/evidently/README.md)
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-## Acknowledgments
-
-This portfolio was developed with AI assistance (Claude, Gemini, GPT, etc.) while maintaining human oversight on architecture decisions, evaluation methodology, and code quality. The goal is to demonstrate not just ML skills, but the judgment to know when AI suggestions are appropriate and when they need refinement.
