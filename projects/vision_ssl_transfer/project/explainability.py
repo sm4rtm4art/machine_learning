@@ -275,9 +275,7 @@ class AttentionVisualizer:
         result = result.unsqueeze(0).expand(attentions[0].shape[0], -1, -1)
 
         for attention in attentions:
-            attention = attention + torch.eye(
-                attention.shape[-1], device=attention.device
-            ).unsqueeze(0)
+            attention = attention + torch.eye(attention.shape[-1], device=attention.device).unsqueeze(0)
             attention = attention / attention.sum(dim=-1, keepdim=True)
             result = torch.bmm(attention, result)
 

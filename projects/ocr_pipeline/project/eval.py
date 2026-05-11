@@ -118,9 +118,7 @@ def evaluate(
         )
 
     # Compute slice metrics
-    slice_results = compute_slice_metrics(
-        all_predictions, all_references, all_text_lengths, config.slices
-    )
+    slice_results = compute_slice_metrics(all_predictions, all_references, all_text_lengths, config.slices)
 
     # Robustness results would be computed separately with perturbed images
     robustness_results: list[dict[str, Any]] = []
@@ -158,9 +156,7 @@ def compute_slice_metrics(
 
     # Add text length slice
     if "text_length" in slice_names:
-        length_buckets = create_length_buckets(
-            text_lengths, n_buckets=3, labels=["short", "medium", "long"]
-        )
+        length_buckets = create_length_buckets(text_lengths, n_buckets=3, labels=["short", "medium", "long"])
         evaluator.add_slice("text_length", length_buckets)
 
     # Compute slice metrics
@@ -231,9 +227,9 @@ def evaluate_robustness(
             baseline_predictions.append(prediction)
             baseline_references.append(sample["text"])
 
-    baseline_cer = sum(
-        compute_cer(p, r) for p, r in zip(baseline_predictions, baseline_references)
-    ) / len(baseline_predictions)
+    baseline_cer = sum(compute_cer(p, r) for p, r in zip(baseline_predictions, baseline_references)) / len(
+        baseline_predictions
+    )
 
     # Evaluate each perturbation
     for perturbation_name, intensities in config.robustness.items():
@@ -247,22 +243,18 @@ def evaluate_robustness(
                     # Apply perturbation
                     perturbed_image = apply_perturbation(image, perturbation_name, intensity)
 
-                    pixel_values = processor(
-                        images=perturbed_image, return_tensors="pt"
-                    ).pixel_values.to(device)
+                    pixel_values = processor(images=perturbed_image, return_tensors="pt").pixel_values.to(device)
 
                     generated_ids = model.generate(pixel_values, max_length=128)
                     prediction = processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
 
                     perturbed_predictions.append(prediction)
 
-            perturbed_cer = sum(
-                compute_cer(p, r) for p, r in zip(perturbed_predictions, baseline_references)
-            ) / len(perturbed_predictions)
-
-            degradation = (
-                ((perturbed_cer - baseline_cer) / baseline_cer * 100) if baseline_cer > 0 else 0
+            perturbed_cer = sum(compute_cer(p, r) for p, r in zip(perturbed_predictions, baseline_references)) / len(
+                perturbed_predictions
             )
+
+            degradation = ((perturbed_cer - baseline_cer) / baseline_cer * 100) if baseline_cer > 0 else 0
 
             results.append(
                 {

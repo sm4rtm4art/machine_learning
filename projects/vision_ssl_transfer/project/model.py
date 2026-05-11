@@ -92,9 +92,7 @@ class SSLBackbone(nn.Module):  # type: ignore[misc]
         """
         return self.model(x)
 
-    def get_intermediate_features(
-        self, x: torch.Tensor, layers: list[int] | None = None
-    ) -> list[torch.Tensor]:
+    def get_intermediate_features(self, x: torch.Tensor, layers: list[int] | None = None) -> list[torch.Tensor]:
         """Get features from intermediate layers (for attention analysis).
 
         Args:

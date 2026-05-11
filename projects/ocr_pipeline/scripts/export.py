@@ -94,9 +94,7 @@ def main(
                 console.print(f"Compression: {compression:.1f}%")
 
             except ImportError:
-                console.print(
-                    "[yellow]onnxruntime-quantization not available. Skipping quantization.[/yellow]"
-                )
+                console.print("[yellow]onnxruntime-quantization not available. Skipping quantization.[/yellow]")
             except Exception as e:
                 console.print(f"[red]Quantization failed: {e}[/red]")
 

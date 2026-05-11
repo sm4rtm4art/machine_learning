@@ -29,9 +29,7 @@ PROJECT_NAME = "vision_ssl_transfer"
 
 
 @app.command()
-def main(
-    input_dir=get_project_paths(PROJECT_NAME).data_dir / "images", shuffle=True
-) -> dict[str, bool]:
+def main(input_dir=get_project_paths(PROJECT_NAME).data_dir / "images", shuffle=True) -> dict[str, bool]:
     input_dir = Path(input_dir)
     if not input_dir.exists():
         raise FileNotFoundError(f"Directory does not exist: {input_dir}")

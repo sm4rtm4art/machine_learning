@@ -64,9 +64,7 @@ def main(
     from projects.vision_ssl_transfer.project.model import SSLBackbone
 
     # Load backbone
-    artifact_path = mlflow.artifacts.download_artifacts(
-        run_id=run_id, artifact_path="best_ssl_model.pt"
-    )
+    artifact_path = mlflow.artifacts.download_artifacts(run_id=run_id, artifact_path="best_ssl_model.pt")
     backbone = SSLBackbone.from_pretrained(Path(artifact_path))
     backbone.eval()
 

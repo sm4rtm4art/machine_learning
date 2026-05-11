@@ -198,9 +198,7 @@ def main(
         mlflow.log_artifact(str(result.model_path), "model")
 
         console.print("\n[green]Training complete![/green]")
-        console.print(
-            f"Best validation CER: {result.best_val_cer:.4f} at epoch {result.best_epoch + 1}"
-        )
+        console.print(f"Best validation CER: {result.best_val_cer:.4f} at epoch {result.best_epoch + 1}")
         console.print(f"Model saved to: {result.model_path}")
         console.print(f"MLflow run ID: {mlflow.active_run().info.run_id}")
 
