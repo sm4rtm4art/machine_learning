@@ -3,10 +3,10 @@ name: Prototypes CI
 on:
   push:
     paths:
-      - 'prototypes/**'
+      - 'projects/vision_ssl_transfer/prototypes/**'
   pull_request:
     paths:
-      - 'prototypes/**'
+      - 'projects/vision_ssl_transfer/prototypes/**'
 
 env:
   PYTHON_VERSION: "3.13"
@@ -32,22 +32,23 @@ jobs:
       # Optional: Basic Linting (Non-blocking)
       - name: Run Ruff (Lint)
         continue-on-error: true
-        run: uv run ruff check prototypes/ || echo "Linting issues found (non-blocking)"
+        run: uv run ruff check projects/vision_ssl_transfer/prototypes/ || echo "Linting issues found (non-blocking)"
 
       # Optional: Basic Formatting Check (Non-blocking)
       - name: Run Ruff (Format)
         continue-on-error: true
-        run: uv run ruff format --check prototypes/ || echo "Formatting issues found (non-blocking)"
+        run: uv run ruff format --check projects/vision_ssl_transfer/prototypes/ || echo "Formatting issues found (non-blocking)"
 
-      # Run tests if they exist in prototypes/
+      # Run tests if they exist in the prototype directory.
       - name: Run tests in prototypes
         run: |
-          if [ -d "prototypes" ]; then
-            echo "Checking for tests in prototypes..."
+          PROTOTYPE_DIR="projects/vision_ssl_transfer/prototypes"
+          if [ -d "$PROTOTYPE_DIR" ]; then
+            echo "Checking for tests in $PROTOTYPE_DIR..."
             # Check if there are any test files
-            if find prototypes -name "test_*.py" | grep -q .; then
+            if find "$PROTOTYPE_DIR" -name "test_*.py" | grep -q .; then
               echo "Tests found, running pytest..."
-              uv run pytest prototypes/ -v || exit 1
+              uv run pytest "$PROTOTYPE_DIR" -v || exit 1
             else
               echo "No tests found in prototypes. Skipping."
             fi

@@ -334,7 +334,7 @@ Expected comparisons:
 
 - **[OCR Pipeline](../ocr_pipeline)**: Shares encoder feature extraction patterns
 - **[ONNX Export Hub](../onnx_export_hub)**: Deploy SSL models efficiently
-- **[Framework Comparison](../framework_comparison)**: Compare SSL implementations across frameworks
+- **Framework Comparison**: roadmap item for comparing SSL implementations across frameworks
 
 ### Future Enhancements
 - **Video extension**: Temporal consistency for wildlife monitoring

@@ -55,7 +55,7 @@ The CI pipeline fails if:
 
 ### Standard Entry Points
 
-Every project exposes these scripts:
+Implemented projects should move toward these standard scripts:
 
 | Script | Purpose | Required Arguments |
 |--------|---------|-------------------|
@@ -170,7 +170,7 @@ data:
 
 ### Required Tests
 
-Every project must have:
+Implemented projects should include:
 
 1. **Smoke test**: Model loads and runs inference on dummy input
 2. **Metrics test**: Metric functions produce expected outputs on known inputs

@@ -39,7 +39,7 @@ Implement and compare Bayesian optimization frameworks for sample-efficient hype
 
 ## Interconnections
 
-- **Supports**: [AutoML Comparison](../automl_comparison/) (HPO component)
+- **Supports**: AutoML Comparison roadmap item (HPO component)
 - **Applies to**: [RL Operations Simulator](../rl_operations_simulator/) (policy tuning)
 - **Uses in**: [Scientific ML - Materials](../scientific_ml_materials/) (materials search)
 
