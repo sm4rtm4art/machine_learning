@@ -11,11 +11,11 @@ A work-in-progress ML portfolio focused on Python, machine learning, evaluation 
 ## **🚧 Early Public Preview / Work in Progress 🚧**
 (State: 11.05.2026)
 
-> This repository has been made publicly available at an early stage to facilitate review and collaboration whle cleanup and stabilization efforts are still underway.
+> This repository has been made publicly available at an early stage to facilitate review and collaboration while cleanup and stabilization efforts are still underway.
 >
->The work implemented thus far focuses on the OCR pipeline and the Vision-SSL prototype. Other areas are clearly marked as planned roadmap or design work.
+> The work implemented thus far focuses on the OCR pipeline and the Vision-SSL prototype. Other areas are clearly marked as planned roadmap or design work.
 >
->**WARNING:** A major overhaul is currently in progress; unpredictable side effects may occur. Completeness is not guaranteed.
+> **WARNING:** A major overhaul is currently in progress; unpredictable side effects may occur. Completeness is not guaranteed.
 ---
 
 
