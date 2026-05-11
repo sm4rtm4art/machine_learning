@@ -8,11 +8,17 @@
 
 A work-in-progress ML portfolio focused on Python, machine learning, evaluation discipline, reproducible project structure, and clean engineering habits.
 
-## Early Public Preview / Work in Progress
+## **🚧 Early Public Preview / Work in Progress 🚧**
+(State: 11.05.2026)
 
-> This repository is public early so review and collaboration can happen while cleanup and stabilization are still in progress. Implemented work is concentrated in the OCR pipeline and Vision SSL prototype. Other tracks are clearly marked as planned roadmap/design work.
-
+> This repository has been made publicly available at an early stage to facilitate review and collaboration whle cleanup and stabilization efforts are still underway.
+>
+>The work implemented thus far focuses on the OCR pipeline and the Vision-SSL prototype. Other areas are clearly marked as planned roadmap or design work.
+>
+>**WARNING:** A major overhaul is currently in progress; unpredictable side effects may occur. Completeness is not guaranteed.
 ---
+
+
 
 ## Philosophy
 
