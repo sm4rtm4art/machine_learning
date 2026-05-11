@@ -6,7 +6,6 @@
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![MLflow convention](https://img.shields.io/badge/MLflow-convention-blue.svg)](https://mlflow.org/)
 
-A work-in-progress ML portfolio focused on Python, machine learning, evaluation discipline, reproducible project structure, and clean engineering habits.
 
 ## **🚧 Early Public Preview / Work in Progress 🚧**
 (State: 11.05.2026)
@@ -18,6 +17,7 @@ A work-in-progress ML portfolio focused on Python, machine learning, evaluation 
 > **WARNING:** A major overhaul is currently in progress; unpredictable side effects may occur. Completeness is not guaranteed.
 ---
 
+A work-in-progress ML portfolio focused on Python, machine learning, evaluation discipline, reproducible project structure, and clean engineering habits.
 
 
 ## Philosophy
