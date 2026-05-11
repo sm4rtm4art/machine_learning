@@ -144,6 +144,7 @@ ignore = [
     "E501",   # line too long (handled by formatter)
     "B008",   # do not perform function calls in argument defaults
     "B905",   # zip without explicit strict
+    "SIM108", # allow explicit if/else assignments for readability
 ]
 
 [tool.ruff.lint.isort]
