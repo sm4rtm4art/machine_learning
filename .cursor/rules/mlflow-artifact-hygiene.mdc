@@ -1,0 +1,15 @@
+---
+description: Keep MLflow, Optuna, Evidently, and generated artifact claims accurate and source-safe.
+globs: **/mlflow*.py, **/evidently*.py, **/docker-compose.yml, **/*.db, **/artifacts/**, **/reports/**
+alwaysApply: false
+---
+
+# MLflow And Artifact Hygiene
+
+- Treat MLflow as the primary experiment-tracking convention, not proof that every project is fully tracked.
+- Describe Optuna and Evidently as target conventions, prototype examples, or monitoring direction unless a project has real integrated usage.
+- Local tracking state is disposable. Do not commit `mlflow.db`, SQLite files, generated MLflow artifacts, local reports, datasets, or model binaries.
+- Prefer commands and reproducible configuration over committed local outputs. If a demo creates artifacts, document where they appear and whether they are gitignored.
+- Log meaningful parameters, metrics, tags, configs, and artifacts only when they are produced by actual runs. Do not fabricate example results as project outcomes.
+- Keep Docker service docs clear about local development usage. Do not imply production deployment or centralized tracking unless that infrastructure exists.
+- For prototype tracking examples, label them as prototypes and keep them separate from claims about finished project pipelines.

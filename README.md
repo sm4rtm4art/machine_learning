@@ -4,9 +4,13 @@
 [![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
-[![Tracked with MLflow](https://img.shields.io/badge/tracked%20with-MLflow-blue.svg)](https://mlflow.org/)
+[![MLflow convention](https://img.shields.io/badge/MLflow-convention-blue.svg)](https://mlflow.org/)
 
-A collection of production-quality machine learning projects demonstrating rigorous evaluation practices, reproducible experiments, and clean engineering.
+A work-in-progress ML portfolio focused on Python, machine learning, evaluation discipline, reproducible project structure, and clean engineering habits.
+
+## Early Public Preview / Work in Progress
+
+> This repository is public early so review and collaboration can happen while cleanup and stabilization are still in progress. Implemented work is concentrated in the OCR pipeline and Vision SSL prototype. Other tracks are clearly marked as planned roadmap/design work.
 
 ---
 
@@ -25,45 +29,48 @@ Principles I try to follow:
 
 ## Projects
 
-**Status key**: 🚧 Active = notebooks/code in progress | 📋 Planned = design docs only
+**Status key**: 🚧 Active = notebooks/code/prototypes in progress | 📋 Planned phase = roadmap/design work, no completed implementation implied
 
-### Core ML (Start Here)
+For a quick review, start with [OCR Pipeline](projects/ocr_pipeline/) and then [Vision SSL Transfer](projects/vision_ssl_transfer/). Synthetic Data and Time Series are priority tracks, but currently remain in planned phase.
+
+### Core ML
 
 | Project | Status | Key Technologies | Planned Interconnections |
 |---------|--------|------------------|--------------------------|
 | [OCR Pipeline](projects/ocr_pipeline/) | 🚧 Active | Tesseract, TrOCR, SVM routing | *Future*: LLM post-processing |
-| [Tabular Boosting Suite](projects/tabular_boosting/) | 📋 Planned | LightGBM, XGBoost, CatBoost, SHAP, [TabPFN](https://github.com/PriorLabs/TabPFN) | → AutoML |
-| [Time Series Forecasting](projects/timeseries_forecasting_covariates/) | 📋 Planned | Darts, NeuralProphet, conformal | Standalone |
+| [Tabular Boosting Suite](projects/tabular_boosting/) | 📋 Planned phase | LightGBM, XGBoost, CatBoost, SHAP, [TabPFN](https://github.com/PriorLabs/TabPFN) | Future AutoML input |
+| [Time Series Forecasting](projects/timeseries_forecasting_covariates/) | 📋 Planned phase | Darts, NeuralProphet, conformal | Standalone priority track |
 
 ### Advanced Architectures
 
 | Project | Status | Key Technologies | Planned Interconnections |
 |---------|--------|------------------|--------------------------|
 | [Vision SSL Transfer](projects/vision_ssl_transfer/) | 🚧 Active | SSL (SimCLR, MAE), SHAP, timm | Shares encoder patterns with OCR |
-| [Graph Neural Networks](projects/graph_neural_networks/) | 📋 Planned | PyG, DGL, node/graph classification | → Materials Discovery |
-| [LLM Evaluation Harness](projects/llm_eval_harness/) | 📋 Planned | lm-eval-harness, custom metrics | Benchmarks domain experts |
+| [Graph Neural Networks](projects/graph_neural_networks/) | 📋 Planned phase | PyG, DGL, node/graph classification | Future Materials work |
+| [LLM Evaluation Harness](projects/llm_eval_harness/) | 📋 Planned phase | lm-eval-harness, custom metrics | Future OCR post-processing evaluation |
+| [Quantum Machine Learning](projects/quantum_ml/) | 📋 Planned phase | Qiskit, PennyLane, TFQ, VQC, quantum kernels | Future optimization/materials track |
 
 ### Optimization & Meta-Learning
 
 | Project | Status | Key Technologies | Interconnections |
 |---------|--------|------------------|------------------|
-| [Bayesian Optimization](projects/bayesian_optimization/) | 📋 Planned | Optuna, BoTorch, Ax | → AutoML, RL |
-| [AutoML Comparison](projects/automl_comparison/) | 📋 Planned | Auto-sklearn, FLAML, H2O | Uses Boosting, Bayesian |
+| [Bayesian Optimization](projects/bayesian_optimization/) | 📋 Planned phase | Optuna, BoTorch, Ax | Future AutoML/RL support |
+| AutoML Comparison | 📋 Planned phase | Auto-sklearn, FLAML, H2O | Roadmap item; no project directory yet |
 
 ### Scientific & Applied
 
 | Project | Status | Key Technologies | Interconnections |
 |---------|--------|------------------|------------------|
-| [Scientific ML - Materials](projects/scientific_ml_materials/) | 📋 Planned | JAX, equinox, crystal graphs | Uses GNN |
-| [RL Operations Simulator](projects/rl_operations_simulator/) | 📋 Planned | Gymnasium, Stable-Baselines3 | Uses Bayesian for tuning |
-| [Synthetic Data Generation](projects/synthetic_data_tabular/) | 📋 Planned | CTGAN, SDV, privacy metrics | Supports all tabular |
+| [Scientific ML - Materials](projects/scientific_ml_materials/) | 📋 Planned phase | JAX, equinox, crystal graphs | Future GNN application |
+| [RL Operations Simulator](projects/rl_operations_simulator/) | 📋 Planned phase | Gymnasium, Stable-Baselines3 | Future Bayesian tuning use case |
+| [Synthetic Data Generation](projects/synthetic_data_tabular/) | 📋 Planned phase | CTGAN, SDV, privacy metrics | Priority planned track |
 
 ### Infrastructure
 
 | Project | Status | Key Technologies | Notes |
 |---------|--------|------------------|-------|
-| [Framework Comparison](projects/framework_comparison/) | 📋 Planned | PyTorch, TensorFlow, JAX | Cross-cutting analysis |
-| [ONNX Export Hub](projects/onnx_export_hub/) | 📋 Planned | ONNX, ONNX Runtime, TensorRT | Deployment optimization |
+| Framework Comparison | 📋 Planned phase | PyTorch, TensorFlow, JAX | Roadmap item; no project directory yet |
+| [ONNX Export Hub](projects/onnx_export_hub/) | 📋 Planned phase | ONNX, ONNX Runtime, TensorRT | Future deployment optimization |
 
 ---
 
@@ -103,13 +110,36 @@ uv run python projects/ocr_pipeline/scripts/evaluate.py
 uv run python projects/ocr_pipeline/scripts/export.py
 ```
 
-**Note**: Only projects marked "🚧 Active" have implemented scripts. Projects marked "📋 Planned" contain design documentation only.
+**Note**: Only projects marked "🚧 Active" have implemented scripts or prototypes. Projects marked "📋 Planned phase" contain design documentation or roadmap notes only.
 
 ### Start MLflow
 
 ```bash
 make mlflow
 # Open http://localhost:5000
+```
+
+### Start Evidently
+
+```bash
+make evidently
+# Open http://localhost:8000
+```
+
+### Prototype Tracking and Monitoring Examples
+
+```bash
+# MLflow example (linear+FFT baseline vs Conv2D)
+uv run python projects/vision_ssl_transfer/prototypes/mlflow_quickstart_example.py
+
+# Same MLflow example but using ssl_2d_minimal generated samples
+USE_SSL2D_SAMPLES=1 uv run python projects/vision_ssl_transfer/prototypes/mlflow_quickstart_example.py
+
+# Optuna + MLflow nested trial runs (requires optuna from tabular extra)
+USE_OPTUNA=1 OPTUNA_TRIALS=20 uv run --extra tabular python projects/vision_ssl_transfer/prototypes/mlflow_quickstart_example.py
+
+# Evidently drift + quality report from ssl_2d_minimal generated samples
+uv run --extra monitoring python projects/vision_ssl_transfer/prototypes/evidently_quickstart_example.py
 ```
 
 ---
@@ -160,7 +190,7 @@ machine_learning/
 
 ## Evaluation Philosophy
 
-Every project in this portfolio adheres to rigorous evaluation standards:
+The target evaluation standard for this portfolio is to go beyond aggregate metrics:
 
 ### Beyond Aggregate Metrics
 
@@ -184,7 +214,7 @@ Every project in this portfolio adheres to rigorous evaluation standards:
 
 ### Standard Artifacts
 
-Every `evaluate.py` produces:
+Implemented `evaluate.py` scripts should move toward this artifact convention:
 
 | Artifact | Purpose |
 |----------|---------|
@@ -241,6 +271,10 @@ See [docs/mlflow_conventions.md](docs/mlflow_conventions.md) for:
 - Experiment naming
 - Tag schema
 - Artifact organization
+
+See [infra/monitoring/evidently/README.md](infra/monitoring/evidently/README.md) for:
+- Evidently service usage
+- Monitoring use cases
 
 ---
 

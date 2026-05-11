@@ -1,0 +1,15 @@
+---
+description: Keep notebooks credible and generated artifacts out of source control.
+globs: **/*.ipynb
+alwaysApply: false
+---
+
+# Notebook And Artifact Policy
+
+- Notebooks are reports, experiments, or learning records. Core logic belongs in importable Python modules under `project/` or `src/ml_portfolio/`.
+- Do not create decorative notebooks to fill a README table. Add notebooks only when they contain runnable, meaningful analysis or clearly marked draft/design content.
+- Prefer `00_report.ipynb` for report-style notebooks. Numbered progress notebooks such as `01_...` and `02_...` are acceptable for active learning or experiment sequences.
+- Keep notebook outputs small and stripped unless a committed output is intentionally reviewed and necessary for documentation.
+- Project READMEs must state which notebooks are implemented, draft/design, or planned. Do not imply missing notebooks exist.
+- Do not commit local datasets, model weights, generated reports, MLflow tracking state, SQLite databases, caches, or secrets.
+- If generated files are needed to reproduce a result, document the command that creates them instead of committing local machine output.

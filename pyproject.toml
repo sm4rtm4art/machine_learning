@@ -1,7 +1,7 @@
 [project]
 name = "ml-portfolio"
 version = "0.1.0"
-description = "Machine Learning Portfolio - A collection of production-quality ML projects demonstrating best practices"
+description = "Machine Learning Portfolio - a work-in-progress collection of Python ML projects and evaluation patterns"
 readme = "README.md"
 license = { text = "GPL-3.0-or-later" }
 requires-python = ">=3.13"
@@ -125,7 +125,7 @@ dev-dependencies = [
 
 [tool.ruff]
 target-version = "py313"
-line-length = 100
+line-length = 120
 src = ["src", "projects"]
 
 [tool.ruff.lint]

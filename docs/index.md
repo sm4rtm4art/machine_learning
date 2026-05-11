@@ -12,7 +12,7 @@ Welcome to the ML Portfolio documentation. This guide covers the conventions, st
 
 ### Project Structure
 
-Every project follows this structure:
+Implemented projects should move toward this structure:
 
 ```
 projects/<name>/
@@ -51,7 +51,7 @@ uv run python projects/<name>/scripts/serve.py --port 8000
 
 ### Evaluation Outputs
 
-Every `evaluate.py` produces:
+Implemented `evaluate.py` scripts should move toward:
 
 ```
 reports/<project>/<run_id>/

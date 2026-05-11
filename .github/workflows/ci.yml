@@ -4,11 +4,11 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - 'prototypes/**'
+      - 'projects/vision_ssl_transfer/prototypes/**'
   pull_request:
     branches: [main]
     paths-ignore:
-      - 'prototypes/**'
+      - 'projects/vision_ssl_transfer/prototypes/**'
 
 env:
   PYTHON_VERSION: "3.13"
@@ -62,7 +62,7 @@ jobs:
         run: |
           echo "Checking if notebooks are clean (no outputs)..."
           FAILED=0
-          for nb in $(find . -name "*.ipynb" -not -path "./.git/*" -not -path "./.venv/*" -not -path "./prototypes/*"); do
+          for nb in $(find . -name "*.ipynb" -not -path "./.git/*" -not -path "./.venv/*" -not -path "./projects/vision_ssl_transfer/prototypes/*"); do
             # Compare original with stripped version
             if ! diff -q "$nb" <(nbstripout --textconv "$nb") > /dev/null 2>&1; then
               echo "❌ Has outputs: $nb"

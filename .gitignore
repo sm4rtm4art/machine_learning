@@ -108,6 +108,9 @@ artifacts/*
 # MLflow
 mlruns/
 mlartifacts/
+*.db
+*.sqlite
+*.sqlite3
 
 # Weights & Biases
 wandb/
@@ -170,3 +173,4 @@ temp/
 *.tmp
 *.temp
 *.log
+.local

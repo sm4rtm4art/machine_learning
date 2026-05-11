@@ -86,7 +86,7 @@ slices = {
 
 ### Required Slices
 
-Every project must define slices relevant to its domain:
+Implemented projects should define slices relevant to their domain:
 
 | Domain | Required Slice Dimensions |
 |--------|--------------------------|
@@ -209,7 +209,7 @@ Required plots vary by problem type:
 
 ### Regression Gates
 
-Every project defines thresholds in `configs/eval_gates.yaml`:
+Projects with CI regression gates should define thresholds in `configs/eval_gates.yaml`:
 
 ```yaml
 gates:

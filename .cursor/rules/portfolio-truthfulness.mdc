@@ -1,0 +1,18 @@
+---
+description: Keep AI assistance honest about this ML portfolio's maturity, priorities, and claims.
+alwaysApply: true
+---
+
+# Portfolio Truthfulness
+
+- Treat this repository as an ML portfolio with mixed maturity, not as a uniformly production-ready platform.
+- Use this current priority order when planning or changing project work:
+  1. `projects/ocr_pipeline/`
+  2. `projects/synthetic_data_tabular/`
+  3. `projects/vision_ssl_transfer/`
+  4. `projects/timeseries_forecasting_covariates/`
+- Preserve the public distinction between `Active` and `Planned`. If implementation, notebooks, metrics, or tracking do not exist yet, describe them as planned or target standards.
+- Do not invent benchmark numbers, model quality, notebook state, MLflow coverage, production readiness, CI enforcement, or deployed behavior.
+- Prefer "production-grade direction", "engineering discipline", "prototype", "roadmap", or "target convention" when that is what the repository actually supports.
+- Keep changes small, reviewable, and testable. Stabilize existing docs, code, and workflow before expanding scope.
+- When changing public docs, verify that linked files, project directories, notebooks, scripts, and claimed artifacts really exist.

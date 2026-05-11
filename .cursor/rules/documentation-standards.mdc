@@ -1,0 +1,15 @@
+---
+description: Write truthful, scannable Markdown docs for project status, READMEs, ADRs, and contributor guidance.
+globs: **/*.md
+alwaysApply: false
+---
+
+# Documentation Standards
+
+- Make every public claim earn its place. Check actual directories, scripts, notebooks, configs, metrics, and artifacts before describing them as implemented.
+- Use `Active` for projects with real code or notebooks in progress. Use `Planned` for roadmap/design work. If a project is becoming active but lacks implementation, say so explicitly.
+- For project READMEs, prefer this lightweight shape: status, current state, purpose, artifacts, how to run, roadmap, references.
+- ADR-style notes should capture decisions that reduce ambiguity: context, decision, consequences, and current limitations. Keep them short.
+- Avoid broad "Every project does..." wording unless the repository actually enforces it. Use "target standard" or "convention" for aspirational practices.
+- Keep README tables aligned with real project directories. Do not link to projects, notebooks, or generated reports that are missing.
+- Keep AI acknowledgement factual and brief. The repo should read like human-owned engineering work, not generated process theater.

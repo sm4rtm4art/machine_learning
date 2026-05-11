@@ -1,0 +1,16 @@
+---
+description: Follow the repository's Python structure, quality checks, and small-change discipline.
+globs: **/*.py
+alwaysApply: false
+---
+
+# Python Project Standards
+
+- Target Python 3.13 and the dependencies already declared in `pyproject.toml`. Do not add dependencies unless they directly support the current task.
+- Put reusable shared code in `src/ml_portfolio/`. Put project-specific logic in `projects/<name>/project/`.
+- Keep `projects/<name>/scripts/` as thin CLI entry points that parse arguments and call importable functions.
+- Prefer absolute imports from `ml_portfolio` and `projects.<name>.project`. Let Ruff manage formatting and import order.
+- Keep implementations small and testable. Add focused tests when changing shared behavior, metrics, data processing, training, evaluation, or exported artifacts.
+- Reuse existing helpers for logging, paths, metrics, evaluation, slicing, and tracking before adding new abstractions.
+- Avoid hiding failed optional dependencies with broad fallbacks. If a feature depends on an extra, document it clearly and fail with an actionable message.
+- After substantive Python edits, run the narrowest useful check first, then broaden only as risk requires.

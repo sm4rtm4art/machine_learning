@@ -1,3 +1,3 @@
-"""ML Portfolio - A collection of production-quality machine learning projects."""
+"""Shared utilities for the ML portfolio projects."""
 
 __version__ = "0.1.0"
