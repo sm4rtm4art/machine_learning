@@ -10,6 +10,9 @@ on:
     paths-ignore:
       - 'projects/vision_ssl_transfer/prototypes/**'
 
+permissions:
+  contents: read
+
 env:
   PYTHON_VERSION: "3.13"
 
