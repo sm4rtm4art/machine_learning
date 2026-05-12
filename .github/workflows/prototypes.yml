@@ -13,6 +13,7 @@ permissions:
 
 env:
   PYTHON_VERSION: "3.13"
+  UV_HTTP_TIMEOUT: "120"
 
 jobs:
   light-check:
@@ -30,7 +31,7 @@ jobs:
         run: uv python install ${{ env.PYTHON_VERSION }}
 
       - name: Install dependencies
-        run: uv sync --all-extras
+        run: uv sync --all-extras --frozen
 
       # Optional: Basic Linting (Non-blocking)
       - name: Run Ruff (Lint)
