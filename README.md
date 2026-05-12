@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/sm4rtm4art/machine_learning/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sm4rtm4art/machine_learning/actions/workflows/ci.yml)
 [![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![MLflow convention](https://img.shields.io/badge/MLflow-convention-blue.svg)](https://mlflow.org/)
 
@@ -286,6 +286,6 @@ See [infra/monitoring/evidently/README.md](infra/monitoring/evidently/README.md)
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
 ---
