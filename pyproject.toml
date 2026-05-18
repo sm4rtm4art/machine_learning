@@ -20,12 +20,12 @@ classifiers = [
 
 dependencies = [
     # Core ML/Data
-    "numpy>=1.26.0",
+    "numpy>=2.4.5",
     "pandas>=2.1.0",
     "scikit-learn>=1.4.0",
-    "torch>=2.2.0",
+    "torch>=2.12.0",
     "torchvision>=0.24.1",
-    "transformers>=5.0.0rc3",
+    "transformers>=5.8.1",
     # Experiment tracking
     "mlflow>=3.11.1",
     # Configuration
@@ -77,7 +77,7 @@ timeseries = [
 ]
 serving = [
     "fastapi>=0.109.0",
-    "uvicorn>=0.27.0",
+    "uvicorn>=0.47.0",
     "httpx>=0.26.0",
 ]
 monitoring = [
@@ -87,7 +87,7 @@ dev = [
     "pytest>=9.0.3",
     "pytest-cov>=4.1.0",
     "pytest-asyncio>=0.23.0",
-    "ruff>=0.2.0",
+    "ruff>=0.15.13",
     "mypy>=1.8.0",
     "pre-commit>=3.6.0",
     "types-PyYAML",
@@ -118,7 +118,7 @@ packages = ["src/ml_portfolio"]
 dev = [
     "pytest>=9.0.3",
     "pytest-cov>=4.1.0",
-    "ruff>=0.2.0",
+    "ruff>=0.15.13",
     "mypy>=1.8.0",
     "pre-commit>=3.6.0",
 ]
