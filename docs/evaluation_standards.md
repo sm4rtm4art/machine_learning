@@ -235,3 +235,73 @@ Nightly runs re-evaluate models on:
 - Current test set (detect data drift)
 - New edge cases (expanding test coverage)
 - Robustness sweeps (track stability)
+
+## Synthetic Tabular Data Target Standard
+
+This section defines the target evaluation standard for the planned `projects/synthetic_data_tabular/` project. It describes the intended evaluation protocol and does not imply that synthetic data generators, metrics, notebooks, MLflow runs, or reports are currently implemented.
+
+### Utility Metrics
+
+Synthetic tabular data should be evaluated by downstream task performance, not only by visual similarity.
+
+Target utility checks:
+
+- Train-on-synthetic-test-on-real (TSTR)
+- Train-on-real-test-on-synthetic (TRTS)
+- Train-on-real-test-on-real reference baseline
+- Classification metrics such as ROC-AUC, PR-AUC, F1, Brier score, and calibration where applicable
+- Regression metrics such as RMSE, MAE, and interval coverage where applicable
+- Slice-level utility for missingness bands, rare categories, outlier bands, and class imbalance
+
+### Fidelity Metrics
+
+Fidelity checks should measure whether synthetic data preserves useful structure without assuming that closer is always safer.
+
+Target fidelity checks:
+
+- Marginal distributions for numerical and categorical columns
+- Category frequency preservation, especially rare categories
+- Pairwise correlations and dependency structure
+- Missing-value pattern similarity
+- Target distribution preservation
+- Comparison of real and synthetic feature interactions
+
+### Privacy Metrics
+
+Synthetic data privacy evaluation should use multiple risk indicators.
+
+Target privacy checks:
+
+- Distance to Closest Record (DCR)
+- Duplicate and near-duplicate detection
+- Membership inference attack simulation
+- Singling-out and outlier-risk analysis using rare real-data equivalence classes
+- Optional l-diversity and t-closeness style checks for sensitive attributes within quasi-identifier groups
+
+These checks are risk indicators and do not constitute a formal differential privacy guarantee.
+
+### Validity Metrics
+
+Synthetic rows must satisfy the declared dataset contract before utility or privacy scores are trusted.
+
+Target validity checks:
+
+- Schema conformity
+- Parquet type preservation
+- Allowed category validation
+- Range constraints
+- Business-rule constraints
+- Missing-value semantics
+- Target leakage checks
+- Train/test split isolation checks
+
+### Target Artifacts
+
+Future implemented synthetic tabular experiments should produce:
+
+- `metrics.json` with utility, fidelity, privacy, and validity summaries
+- Slice-level utility outputs
+- Validity report for generated datasets
+- Privacy risk report
+- Fidelity plots or tables
+- Reproducible generator run metadata
