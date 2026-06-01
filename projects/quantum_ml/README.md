@@ -139,6 +139,9 @@ quantum_ml/
 - [Cirq Documentation](https://quantumai.google/cirq)
 
 ### Papers
+- [Qiskit Machine Learning: an open-source library for quantum machine learning tasks at scale on quantum hardware and classical simulators](https://arxiv.org/html/2505.17756v1)
+- [Quantum Machine Learning](https://arxiv.org/abs/1611.09347) - Schuld & Killoran
+
 - [Variational Quantum Eigensolver (VQE)](https://arxiv.org/abs/1304.3061) - Peruzzo et al.
 - [Quantum Machine Learning](https://arxiv.org/abs/1611.09347) - Schuld & Killoran
 - [Barren Plateaus in QML](https://arxiv.org/abs/1803.11173) - McClean et al.

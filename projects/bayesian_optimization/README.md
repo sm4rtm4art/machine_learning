@@ -53,7 +53,7 @@ Implement and compare Bayesian optimization frameworks for sample-efficient hype
 ## References
 
 - [Optuna Documentation](https://optuna.readthedocs.io/)
-- [BoTorch Tutorials](https://botorch.org/tutorials/)
+- [BoTorch Tutorials](https://botorch.org/docs/tutorials)
 - [Bayesian Optimization Book](https://bayesoptbook.com/)
 - [AutoML Book Chapter](https://www.automl.org/book/)
 
