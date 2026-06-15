@@ -25,21 +25,21 @@ dependencies = [
     "scikit-learn>=1.9.0",
     "torch>=2.12.0",
     "torchvision>=0.24.1",
-    "transformers>=5.10.2",
+    "transformers>=5.12.0",
     # Experiment tracking
     "mlflow>=3.13.0",
     # Configuration
     "pydantic>=2.5.0",
     "pydantic-settings>=2.1.0",
-    "omegaconf>=2.3.0",
-    "hydra-core>=1.3.0",
+    "omegaconf>=2.3.1",
+    "hydra-core>=1.3.3",
     # CLI
     "typer>=0.26.7",
     "rich>=13.7.0",
     # Utilities
     "python-dotenv>=1.2.2",
     "structlog>=26.1.0",
-    "tqdm>=4.68.1",
+    "tqdm>=4.68.2",
     "sentencepiece>=0.2.1",
 ]
 
@@ -76,7 +76,7 @@ timeseries = [
     "statsmodels>=0.14.0",
 ]
 serving = [
-    "fastapi>=0.136.3",
+    "fastapi>=0.137.0",
     "uvicorn>=0.49.0",
     "httpx>=0.26.0",
 ]
@@ -84,14 +84,14 @@ monitoring = [
     "evidently>=0.7.21",
 ]
 dev = [
-    "pytest>=9.0.3",
+    "pytest>=9.1.0",
     "pytest-cov>=4.1.0",
     "pytest-asyncio>=1.4.0",
-    "ruff>=0.15.16",
+    "ruff>=0.15.17",
     "mypy>=1.8.0",
     "pre-commit>=3.6.0",
     "types-PyYAML",
-    "ipykernel>=6.29.0",
+    "ipykernel>=7.3.0",
     "ipywidgets>=8.1.0",
     "jupyterlab>=4.5.8",
     "nbstripout>=0.7.0",
@@ -116,9 +116,9 @@ packages = ["src/ml_portfolio"]
 
 [dependency-groups]
 dev = [
-    "pytest>=9.0.3",
+    "pytest>=9.1.0",
     "pytest-cov>=4.1.0",
-    "ruff>=0.15.16",
+    "ruff>=0.15.17",
     "mypy>=1.8.0",
     "pre-commit>=3.6.0",
 ]
