@@ -20,19 +20,19 @@ classifiers = [
 
 dependencies = [
     # Core ML/Data
-    "numpy>=2.5.0",
+    "numpy>=2.5.1",
     "pandas>=2.1.0",
     "scikit-learn>=1.9.0",
     "torch>=2.12.1",
     "torchvision>=0.24.1",
-    "transformers>=5.12.1",
+    "transformers>=5.13.0",
     # Experiment tracking
     "mlflow>=3.14.0",
     # Configuration
     "pydantic>=2.5.0",
     "pydantic-settings>=2.14.2",
     "omegaconf>=2.3.1",
-    "hydra-core>=1.3.3",
+    "hydra-core>=1.3.4",
     # CLI
     "typer>=0.26.8",
     "rich>=13.7.0",
@@ -45,8 +45,8 @@ dependencies = [
 
 [project.optional-dependencies]
 ocr = [
-    "pillow>=12.2.0",
-    "opencv-python>=4.9.0",
+    "pillow>=12.3.0",
+    "opencv-python>=5.0.0.93",
     "onnx>=1.22.0",
     "onnxruntime>=1.27.0",
     "jiwer>=3.0.0",  # WER/CER metrics
@@ -56,7 +56,7 @@ ocr = [
     "timm>=0.9.0",  # Required for Florence-2
 ]
 vision = [
-    "pillow>=12.2.0",
+    "pillow>=12.3.0",
     "torchvision>=0.17.0",
     "albumentations>=1.3.0",
 ]
@@ -76,8 +76,8 @@ timeseries = [
     "statsmodels>=0.14.0",
 ]
 serving = [
-    "fastapi>=0.138.1",
-    "uvicorn>=0.49.0",
+    "fastapi>=0.139.0",
+    "uvicorn>=0.50.0",
     "httpx>=0.26.0",
 ]
 monitoring = [
@@ -93,7 +93,7 @@ dev = [
     "types-PyYAML",
     "ipykernel>=7.3.0",
     "ipywidgets>=8.1.0",
-    "jupyterlab>=4.6.0",
+    "jupyterlab>=4.6.1",
     "nbstripout>=0.7.0",
 ]
 all = [
