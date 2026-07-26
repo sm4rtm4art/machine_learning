@@ -93,7 +93,7 @@ dev = [
     "types-PyYAML",
     "ipykernel>=7.3.0",
     "ipywidgets>=8.1.0",
-    "jupyterlab>=4.6.1",
+    "jupyterlab>=4.6.2",
     "nbstripout>=0.7.0",
 ]
 all = [
