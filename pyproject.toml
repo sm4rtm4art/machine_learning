@@ -39,7 +39,7 @@ dependencies = [
     # Utilities
     "python-dotenv>=1.2.2",
     "structlog>=26.1.0",
-    "tqdm>=4.69.0",
+    "tqdm>=4.69.1",
     "sentencepiece>=0.2.2",
 ]
 
@@ -48,7 +48,7 @@ ocr = [
     "pillow>=12.3.0",
     "opencv-python>=5.0.0.93",
     "onnx>=1.22.0",
-    "onnxruntime>=1.27.0",
+    "onnxruntime>=1.28.0",
     "jiwer>=3.0.0",  # WER/CER metrics
     "datasets>=5.0.0",  # HuggingFace datasets
     "torchvision>=0.17.0",  # Required for Qwen2-VL
@@ -76,7 +76,7 @@ timeseries = [
     "statsmodels>=0.14.0",
 ]
 serving = [
-    "fastapi>=0.139.2",
+    "fastapi>=0.140.0",
     "uvicorn>=0.51.0",
     "httpx>=0.26.0",
 ]
@@ -87,13 +87,13 @@ dev = [
     "pytest>=9.1.1",
     "pytest-cov>=4.1.0",
     "pytest-asyncio>=1.4.0",
-    "ruff>=0.15.22",
+    "ruff>=0.16.0",
     "mypy>=2.3.0",
-    "pre-commit>=3.6.0",
+    "pre-commit>=4.6.1",
     "types-PyYAML",
     "ipykernel>=7.3.0",
     "ipywidgets>=8.1.0",
-    "jupyterlab>=4.6.1",
+    "jupyterlab>=4.6.2",
     "nbstripout>=0.7.0",
 ]
 all = [
@@ -118,9 +118,9 @@ packages = ["src/ml_portfolio"]
 dev = [
     "pytest>=9.1.1",
     "pytest-cov>=4.1.0",
-    "ruff>=0.15.22",
+    "ruff>=0.16.0",
     "mypy>=2.3.0",
-    "pre-commit>=3.6.0",
+    "pre-commit>=4.6.1",
 ]
 
 [tool.ruff]
