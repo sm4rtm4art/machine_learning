@@ -43,20 +43,24 @@ def test_backbone_config() -> None:
 
 def test_ssl_augmentation() -> None:
     """Test SSL augmentation pipeline."""
-    from PIL import Image
+    from PIL import Image, ImageDraw
     from projects.vision_ssl_transfer.project.data import SSLAugmentation
 
     aug = SSLAugmentation(image_size=224)
 
-    # Create dummy image
-    dummy_image = Image.new("RGB", (256, 256), color="red")
+    # Use a spatially structured image so RandomResizedCrop / flip change content.
+    # A solid-color image makes crop/flip/blur no-ops and flakes when color jitter
+    # happens not to fire on either view.
+    dummy_image = Image.new("RGB", (256, 256), color="white")
+    draw = ImageDraw.Draw(dummy_image)
+    draw.rectangle((16, 16, 120, 120), fill="red")
+    draw.ellipse((140, 80, 240, 200), fill="blue")
+    draw.line((0, 255, 255, 0), fill="green", width=8)
 
-    # Apply augmentation
     view1, view2 = aug(dummy_image)
 
     assert view1.shape == (3, 224, 224)
     assert view2.shape == (3, 224, 224)
-    # Views should be different (almost certainly due to random augmentation)
     assert not torch.allclose(view1, view2)
 
 
