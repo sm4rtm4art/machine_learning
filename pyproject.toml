@@ -39,7 +39,7 @@ dependencies = [
     # Utilities
     "python-dotenv>=1.2.2",
     "structlog>=26.1.0",
-    "tqdm>=4.69.1",
+    "tqdm>=4.70.0",
     "sentencepiece>=0.2.2",
 ]
 
@@ -50,7 +50,7 @@ ocr = [
     "onnx>=1.22.0",
     "onnxruntime>=1.28.0",
     "jiwer>=3.0.0",  # WER/CER metrics
-    "datasets>=5.0.0",  # HuggingFace datasets
+    "datasets>=5.0.1",  # HuggingFace datasets
     "torchvision>=0.17.0",  # Required for Qwen2-VL
     "einops>=0.7.0",  # Required for Florence-2
     "timm>=1.0.28",  # Required for Florence-2
@@ -76,8 +76,8 @@ timeseries = [
     "statsmodels>=0.14.0",
 ]
 serving = [
-    "fastapi>=0.140.0",
-    "uvicorn>=0.51.0",
+    "fastapi>=0.141.1",
+    "uvicorn>=0.52.0",
     "httpx>=0.26.0",
 ]
 monitoring = [
@@ -87,7 +87,7 @@ dev = [
     "pytest>=9.1.1",
     "pytest-cov>=4.1.0",
     "pytest-asyncio>=1.4.0",
-    "ruff>=0.16.0",
+    "ruff>=0.16.1",
     "mypy>=2.3.0",
     "pre-commit>=4.6.1",
     "types-PyYAML",
@@ -118,7 +118,7 @@ packages = ["src/ml_portfolio"]
 dev = [
     "pytest>=9.1.1",
     "pytest-cov>=4.1.0",
-    "ruff>=0.16.0",
+    "ruff>=0.16.1",
     "mypy>=2.3.0",
     "pre-commit>=4.6.1",
 ]
