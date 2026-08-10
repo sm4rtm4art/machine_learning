@@ -7,14 +7,14 @@
 [![MLflow convention](https://img.shields.io/badge/MLflow-convention-blue.svg)](https://mlflow.org/)
 
 
-## **🚧 Early Public Preview / Work in Progress 🚧**
-(State: 11.05.2026)
+## **🚧 Early Public Preview / Currently Stale 🚧**
+(State: 10.08.2026)
 
-> This repository has been made publicly available at an early stage to facilitate review and collaboration while cleanup and stabilization efforts are still underway.
+> This repository remains publicly available for review, but **active development is paused**. Other projects currently take higher priority, so expect slower responses, fewer commits, and limited near-term progress.
 >
-> The work implemented thus far focuses on the OCR pipeline and the Vision-SSL prototype. Other areas are clearly marked as planned roadmap or design work.
+> Implemented work so far focuses on the OCR pipeline and the Vision-SSL prototype. Other areas are clearly marked as planned roadmap or design work.
 >
-> **WARNING:** A major overhaul is currently in progress; unpredictable side effects may occur. Completeness is not guaranteed.
+> Completeness is not guaranteed. Dependency and CI maintenance may continue while feature work is on hold.
 ---
 
 A work-in-progress ML portfolio focused on Python, machine learning, evaluation discipline, reproducible project structure, and clean engineering habits.
