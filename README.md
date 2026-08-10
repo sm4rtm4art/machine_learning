@@ -10,11 +10,13 @@
 ## **🚧 Early Public Preview / Currently Stale 🚧**
 (State: 10.08.2026)
 
-> This repository remains publicly available for review, but **active development is paused**. Other projects currently take higher priority, so expect slower responses, fewer commits, and limited near-term progress.
+> Early public preview of machine learning projects soon to come.
+>
+> Currently stale due to other projects with higher priority in the pipeline.
 >
 > Implemented work so far focuses on the OCR pipeline and the Vision-SSL prototype. Other areas are clearly marked as planned roadmap or design work.
 >
-> Completeness is not guaranteed. Dependency and CI maintenance may continue while feature work is on hold.
+> Dependency and CI maintenance may continue while feature work is on hold.
 ---
 
 A work-in-progress ML portfolio focused on Python, machine learning, evaluation discipline, reproducible project structure, and clean engineering habits.
